@@ -1,0 +1,239 @@
+#FIGURE 1
+
+#ANALYSES OF ALL TRIALS AND GIT SECTIONS FOR NUMBER OF OTUs.
+
+set.seed(3711)
+library(ggplot2)
+library(ggvenn)
+library(ggVennDiagram)
+library(ggpubr)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(openxlsx)
+options(scipen=1000)
+testbiome = read.table("D:/HAUPT_ALL/Duodenum/duodenum.stability.opti_mcc.shared", header=TRUE, sep="\t")
+View(testbiome)
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT_ALL/Duodenum/duodenum.stability.cons.taxonomy", header=TRUE, sep="\t")
+View(testax)
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+View(testbiome)
+testbiome$CONTROL <- rowSums(testbiome[ , c(9:26)],na.rm=TRUE)
+testbiome$TEST <- rowSums(testbiome[ , c(26:43)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9:43)],na.rm=TRUE)
+testbiome$Trial_1 <- rowSums(testbiome[ , c(9,19,20,21,27,36,37,38)],na.rm=TRUE)
+testbiome$Trial_2 <- rowSums(testbiome[ , c(22,23,24,25,26,39,40,41,42)],na.rm=TRUE)
+testbiome$Trial_3 <- rowSums(testbiome[ , c(10,11,12,13,43,28,29,30)],na.rm=TRUE)
+testbiome$Trial_4 <- rowSums(testbiome[ , c(14,15,16,17,18,31,32,33,34,17)],na.rm=TRUE)
+vennDuodenum = vennDuodenum <- select(testbiome, Trial_1, Trial_2, Trial_3, Trial_4)
+write.table(vennDuodenum, file = "D:/HAUPT_ALL/Duodenum/vennDuodenumSequences.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+vennDuodenum$row_num <- seq.int(nrow(vennDuodenum))
+vennDuodenum$Set1 <- ifelse(vennDuodenum$Trial_1 > 0, vennDuodenum$row_num, 0)
+vennDuodenum$Set2 <- ifelse(vennDuodenum$Trial_2 > 0, vennDuodenum$row_num, 0)
+vennDuodenum$Set3 <- ifelse(vennDuodenum$Trial_3 > 0, vennDuodenum$row_num, 0)
+vennDuodenum$Set4 <- ifelse(vennDuodenum$Trial_4 > 0, vennDuodenum$row_num, 0)
+vennDuodenum1 = vennDuodenum1 <- select(vennDuodenum, Set1, Set2, Set3, Set4)
+write.table(vennDuodenum1, file = "D:/HAUPT_ALL/Duodenum/VennDuodenum1.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
+
+testbiome = read.table("D:/HAUPT_ALL/Jejunum/jejunum.stability.opti_mcc.shared", header=TRUE, sep="\t")
+View(testbiome)
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT_ALL/Jejunum/jejunum.stability.cons.taxonomy", header=TRUE, sep="\t")
+View(testax)
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+View(testbiome)
+testbiome$CONTROL <- rowSums(testbiome[ , c(9:26)],na.rm=TRUE)
+testbiome$TEST <- rowSums(testbiome[ , c(26:43)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9:43)],na.rm=TRUE)
+testbiome$Trial_1 <- rowSums(testbiome[ , c(9,19,20,21,27,36,37,38)],na.rm=TRUE)
+testbiome$Trial_2 <- rowSums(testbiome[ , c(22,23,24,25,26,39,40,41,42)],na.rm=TRUE)
+testbiome$Trial_3 <- rowSums(testbiome[ , c(10,11,12,13,43,28,29,30)],na.rm=TRUE)
+testbiome$Trial_4 <- rowSums(testbiome[ , c(14,15,16,17,18,31,32,33,34,17)],na.rm=TRUE)
+vennJejunum = vennJejunum <- select(testbiome, Trial_1, Trial_2, Trial_3, Trial_4)
+write.table(vennJejunum, file = "D:/HAUPT_ALL/Jejunum/vennJejunumSequences.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+vennJejunum$row_num <- seq.int(nrow(vennJejunum))
+vennJejunum$Set1 <- ifelse(vennJejunum$Trial_1 > 0, vennJejunum$row_num, 0)
+vennJejunum$Set2 <- ifelse(vennJejunum$Trial_2 > 0, vennJejunum$row_num, 0)
+vennJejunum$Set3 <- ifelse(vennJejunum$Trial_3 > 0, vennJejunum$row_num, 0)
+vennJejunum$Set4 <- ifelse(vennJejunum$Trial_4 > 0, vennJejunum$row_num, 0)
+vennJejunum1 = vennJejunum1 <- select(vennJejunum, Set1, Set2, Set3, Set4)
+write.table(vennJejunum1, file = "D:/HAUPT_ALL/Jejunum/VennJejunum1.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
+
+testbiome = read.table("D:/HAUPT_ALL/Ileum/ileum.stability.opti_mcc.shared", header=TRUE, sep="\t")
+View(testbiome)
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT_ALL/Ileum/ileum.stability.cons.taxonomy", header=TRUE, sep="\t")
+View(testax)
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+View(testbiome)
+testbiome$CONTROL <- rowSums(testbiome[ , c(9:26)],na.rm=TRUE)
+testbiome$TEST <- rowSums(testbiome[ , c(26:43)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9:43)],na.rm=TRUE)
+testbiome$Trial_1 <- rowSums(testbiome[ , c(9,19,20,21,27,36,37,38)],na.rm=TRUE)
+testbiome$Trial_2 <- rowSums(testbiome[ , c(22,23,24,25,26,39,40,41,42)],na.rm=TRUE)
+testbiome$Trial_3 <- rowSums(testbiome[ , c(10,11,12,13,43,28,29,30)],na.rm=TRUE)
+testbiome$Trial_4 <- rowSums(testbiome[ , c(14,15,16,17,18,31,32,33,34,17)],na.rm=TRUE)
+vennIleum = vennIleum <- select(testbiome, Trial_1, Trial_2, Trial_3, Trial_4)
+write.table(vennIleum, file = "D:/HAUPT_ALL/Ileum/vennIleumSequences.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+vennIleum$row_num <- seq.int(nrow(vennIleum))
+vennIleum$Set1 <- ifelse(vennIleum$Trial_1 > 0, vennIleum$row_num, 0)
+vennIleum$Set2 <- ifelse(vennIleum$Trial_2 > 0, vennIleum$row_num, 0)
+vennIleum$Set3 <- ifelse(vennIleum$Trial_3 > 0, vennIleum$row_num, 0)
+vennIleum$Set4 <- ifelse(vennIleum$Trial_4 > 0, vennIleum$row_num, 0)
+vennIleum1 = vennIleum1 <- select(vennIleum, Set1, Set2, Set3, Set4)
+write.table(vennIleum1, file = "D:/HAUPT_ALL/Ileum/VennIleum1.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
+
+testbiome = read.table("D:/HAUPT_ALL/Caecum/caecum.stability.opti_mcc.shared", header=TRUE, sep="\t")
+View(testbiome)
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT_ALL/Caecum/caecum.stability.cons.taxonomy", header=TRUE, sep="\t")
+View(testax)
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+View(testbiome)
+testbiome$CONTROL <- rowSums(testbiome[ , c(9:26)],na.rm=TRUE)
+testbiome$TEST <- rowSums(testbiome[ , c(26:43)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9:43)],na.rm=TRUE)
+testbiome$Trial_1 <- rowSums(testbiome[ , c(9,19,20,21,27,36,37,38)],na.rm=TRUE)
+testbiome$Trial_2 <- rowSums(testbiome[ , c(22,23,24,25,26,39,40,41,42)],na.rm=TRUE)
+testbiome$Trial_3 <- rowSums(testbiome[ , c(10,11,12,13,43,28,29,30)],na.rm=TRUE)
+testbiome$Trial_4 <- rowSums(testbiome[ , c(14,15,16,17,18,31,32,33,34,17)],na.rm=TRUE)
+vennCaecum = vennCaecum <- select(testbiome, Trial_1, Trial_2, Trial_3, Trial_4)
+write.table(vennCaecum, file = "D:/HAUPT_ALL/Caecum/vennCaecumSequences.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+vennCaecum$row_num <- seq.int(nrow(vennCaecum))
+vennCaecum$Set1 <- ifelse(vennCaecum$Trial_1 > 0, vennCaecum$row_num, 0)
+vennCaecum$Set2 <- ifelse(vennCaecum$Trial_2 > 0, vennCaecum$row_num, 0)
+vennCaecum$Set3 <- ifelse(vennCaecum$Trial_3 > 0, vennCaecum$row_num, 0)
+vennCaecum$Set4 <- ifelse(vennCaecum$Trial_4 > 0, vennCaecum$row_num, 0)
+vennCaecum1 = vennCaecum1 <- select(vennCaecum, Set1, Set2, Set3, Set4)
+write.table(vennCaecum1, file = "D:/HAUPT_ALL/Caecum/VennCaecum1.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
+
+testbiome = read.table("D:/HAUPT_ALL/Colon/colon.stability.opti_mcc.shared", header=TRUE, sep="\t")
+View(testbiome)
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT_ALL/Colon/colon.stability.cons.taxonomy", header=TRUE, sep="\t")
+View(testax)
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+View(testbiome)
+testbiome$CONTROL <- rowSums(testbiome[ , c(9:26)],na.rm=TRUE)
+testbiome$TEST <- rowSums(testbiome[ , c(26:43)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9:43)],na.rm=TRUE)
+testbiome$Trial_1 <- rowSums(testbiome[ , c(9,19,20,21,27,36,37,38)],na.rm=TRUE)
+testbiome$Trial_2 <- rowSums(testbiome[ , c(22,23,24,25,26,39,40,41,42)],na.rm=TRUE)
+testbiome$Trial_3 <- rowSums(testbiome[ , c(10,11,12,13,43,28,29,30)],na.rm=TRUE)
+testbiome$Trial_4 <- rowSums(testbiome[ , c(14,15,16,17,18,31,32,33,34,17)],na.rm=TRUE)
+vennColon = vennColon <- select(testbiome, Trial_1, Trial_2, Trial_3, Trial_4)
+write.table(vennColon, file = "D:/HAUPT_ALL/Colon/vennColonSequences.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+vennColon$row_num <- seq.int(nrow(vennColon))
+vennColon$Set1 <- ifelse(vennColon$Trial_1 > 0, vennColon$row_num, 0)
+vennColon$Set2 <- ifelse(vennColon$Trial_2 > 0, vennColon$row_num, 0)
+vennColon$Set3 <- ifelse(vennColon$Trial_3 > 0, vennColon$row_num, 0)
+vennColon$Set4 <- ifelse(vennColon$Trial_4 > 0, vennColon$row_num, 0)
+vennColon1 = vennColon1 <- select(vennColon, Set1, Set2, Set3, Set4)
+write.table(vennColon1, file = "D:/HAUPT_ALL/Colon/VennColon1.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
+
+testbiome = read.table("D:/HAUPT_ALL/Rectum/rectum.stability.opti_mcc.shared", header=TRUE, sep="\t")
+View(testbiome)
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT_ALL/Rectum/rectum.stability.cons.taxonomy", header=TRUE, sep="\t")
+View(testax)
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+View(testbiome)
+testbiome$CONTROL <- rowSums(testbiome[ , c(9:26)],na.rm=TRUE)
+testbiome$TEST <- rowSums(testbiome[ , c(26:43)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9:43)],na.rm=TRUE)
+testbiome$Trial_1 <- rowSums(testbiome[ , c(9,19,20,21,27,36,37,38)],na.rm=TRUE)
+testbiome$Trial_2 <- rowSums(testbiome[ , c(22,23,24,25,26,39,40,41,42)],na.rm=TRUE)
+testbiome$Trial_3 <- rowSums(testbiome[ , c(10,11,12,13,43,28,29,30)],na.rm=TRUE)
+testbiome$Trial_4 <- rowSums(testbiome[ , c(14,15,16,17,18,31,32,33,34,17)],na.rm=TRUE)
+vennRectum = vennRectum <- select(testbiome, Trial_1, Trial_2, Trial_3, Trial_4)
+write.table(vennRectum, file = "D:/HAUPT_ALL/Rectum/vennRectumSequences.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+vennRectum$row_num <- seq.int(nrow(vennRectum))
+vennRectum$Set1 <- ifelse(vennRectum$Trial_1 > 0, vennRectum$row_num, 0)
+vennRectum$Set2 <- ifelse(vennRectum$Trial_2 > 0, vennRectum$row_num, 0)
+vennRectum$Set3 <- ifelse(vennRectum$Trial_3 > 0, vennRectum$row_num, 0)
+vennRectum$Set4 <- ifelse(vennRectum$Trial_4 > 0, vennRectum$row_num, 0)
+vennRectum1 = vennRectum1 <- select(vennRectum, Set1, Set2, Set3, Set4)
+write.table(vennRectum1, file = "D:/HAUPT_ALL/Rectum/VennRectum1.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
+
+vennDuodenum = read.table("D:/HAUPT_ALL/Duodenum/VennDuodenum1.txt", header=TRUE, sep="\t")
+Set1 <- vennDuodenum$Set1
+Set2 <- vennDuodenum$Set2
+Set3 <- vennDuodenum$Set3
+Set4 <- vennDuodenum$Set4
+vennDuodenum <-list("T1" = Set1, "T2" = Set2, "T3" = Set3, "T4" = Set4)
+V1 <- ggvenn(vennDuodenum, show_percentage = FALSE,fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+        stroke_size = 0.5, set_name_size = 5) + labs(title = "Duodenum") + theme(plot.title=element_text(hjust=0.5))
+
+vennJejunum = read.table("D:/HAUPT_ALL/Jejunum/VennJejunum1.txt", header=TRUE, sep="\t")
+Set1 <- vennJejunum$Set1
+Set2 <- vennJejunum$Set2
+Set3 <- vennJejunum$Set3
+Set4 <- vennJejunum$Set4
+vennJejunum <-list("T1" = Set1, "T2" = Set2, "T3" = Set3, "T4" = Set4)
+V2 <- ggvenn(vennJejunum, show_percentage = FALSE,fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+        stroke_size = 0.5, set_name_size = 5) + labs(title = "Jejunum") + theme(plot.title=element_text(hjust=0.5))
+
+vennIleum = read.table("D:/HAUPT_ALL/Ileum/VennIleum1.txt", header=TRUE, sep="\t")
+Set1 <- vennIleum$Set1
+Set2 <- vennIleum$Set2
+Set3 <- vennIleum$Set3
+Set4 <- vennIleum$Set4
+vennIleum <-list("T1" = Set1, "T2" = Set2, "T3" = Set3, "T4" = Set4)
+V3 <- ggvenn(vennIleum, show_percentage = FALSE,fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+        stroke_size = 0.5, set_name_size = 5) + labs(title = "Ileum") + theme(plot.title=element_text(hjust=0.5))
+
+vennCaecum = read.table("D:/HAUPT_ALL/Caecum/VennCaecum1.txt", header=TRUE, sep="\t")
+Set1 <- vennCaecum$Set1
+Set2 <- vennCaecum$Set2
+Set3 <- vennCaecum$Set3
+Set4 <- vennCaecum$Set4
+vennCaecum <-list("T1" = Set1, "T2" = Set2, "T3" = Set3, "T4" = Set4)
+V4 <- ggvenn(vennCaecum, show_percentage = FALSE,fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+        stroke_size = 0.5, set_name_size = 5) + labs(title = "Caecum") + theme(plot.title=element_text(hjust=0.5))
+
+vennColon = read.table("D:/HAUPT_ALL/Colon/VennColon1.txt", header=TRUE, sep="\t")
+Set1 <- vennColon$Set1
+Set2 <- vennColon$Set2
+Set3 <- vennColon$Set3
+Set4 <- vennColon$Set4
+vennColon <-list("T1" = Set1, "T2" = Set2, "T3" = Set3, "T4" = Set4)
+V5 <- ggvenn(vennColon, show_percentage = FALSE,fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+        stroke_size = 0.5, set_name_size = 5) + labs(title = "Colon") + theme(plot.title=element_text(hjust=0.5))
+
+vennRectum = read.table("D:/HAUPT_ALL/Rectum/VennRectum1.txt", header=TRUE, sep="\t")
+Set1 <- vennRectum$Set1
+Set2 <- vennRectum$Set2
+Set3 <- vennRectum$Set3
+Set4 <- vennRectum$Set4
+vennRectum <-list("T1" = Set1, "T2" = Set2, "T3" = Set3, "T4" = Set4)
+V6 <- ggvenn(vennRectum, show_percentage = FALSE,fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+        stroke_size = 0.5, set_name_size = 5) + labs(title = "Rectum") + theme(plot.title=element_text(hjust=0.5))
+
+ggarrange(V1, V2, V3, V4, V5, V6, ncol = 3, nrow =2)
+
+tiff('D:/HAUPT_ALL/Figure1.tiff', pointsize=12, width=2700, height=1800, res=300)
