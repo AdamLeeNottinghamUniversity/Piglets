@@ -1,0 +1,157 @@
+#FIGURE 5 GUT ARCHITECTURE
+
+tiff("D:/Figure5.tiff", pointsize=12, width=2700, height=1800, res=300)
+par(mfrow = c(2,3))
+VHJejunum=read.table("D:/VHJejunum.txt", header=TRUE, sep="\t")
+View(VHJejunum)
+h1 <- (VHJejunum$VH1C)
+h2 <- (VHJejunum$VH1G)
+h3 <- (VHJejunum$VH2C)
+h4 <- (VHJejunum$VH2G)
+h5 <- (VHJejunum$VH3C)
+h6 <- (VHJejunum$VH3G)
+h7 <- (VHJejunum$VH4C)
+h8 <- (VHJejunum$VH4G)
+par(font.axis = 2)
+boxplot(h1, h2, h3, h4, h5, h6, h7, h8,
+                  ylab = expression(bold(paste("Height ", mu, "m"))),
+                  col=(c("#7570B3","#E7298A")),
+                  pch = 20,
+                  xaxt="n",
+                  cex = 1.,
+                  cex.lab = 1.,
+                  cex.axis = 1.)
+legend("topleft", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, pch = 19, text.font = 2, col = c("#7570B3","#E7298A"))
+text(x = 2, y = 640, label ="**", cex = 1.2, font = 2)
+text(x = 3, y = 500, label ="**", cex = 1.2, font = 2)
+text(x = 6, y = 775, label ="***", cex = 1.2, font = 2)
+text(x = 8, y = 660, label ="***", cex = 1.2, font = 2)
+axis(1, at = c(1.5, 3.5, 5.5, 7.5),
+labels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4"), las = 3)
+mtext("Jejunum", side=3, adj=0, line=2, cex=1, font=2, font.lab = 2)
+mtext("Villus Height", side=3, adj=0.5, line=0.6, cex=0.8, font=2, font.lab = 2)
+
+CDJejunum=read.table("D:/CDJejunum.txt", header=TRUE, sep="\t")
+View(CDJejunum)
+hhh1 <- (CDJejunum$CD1C)
+hhh2 <- (CDJejunum$CD1G)
+hhh3 <- (CDJejunum$CD2C)
+hhh4 <- (CDJejunum$CD2G)
+hhh5 <- (CDJejunum$CD3C)
+hhh6 <- (CDJejunum$CD3G)
+hhh7 <- (CDJejunum$CD4C)
+hhh8 <- (CDJejunum$CD4G)
+par(font.axis = 2)
+boxplot(hhh1, hhh2, hhh3, hhh4, hhh5, hhh6, hhh7, hhh8,
+                  ylab = expression(bold(paste("Depth ", mu, "m"))),
+                  col=(c("#7570B3","#E7298A")),
+                  pch = 20,
+                  xaxt="n",
+                  cex = 1.,
+                  cex.lab = 1.,
+                  cex.axis = 1.)
+axis(1, at = c(1.5, 3.5, 5.5, 7.5),
+labels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4"), las = 3)
+mtext("Crypt Depth", side=3, adj=0.5, line=0.6, cex=0.8, font=2, font.lab = 2)
+
+VCRJejunum=read.table("D:/VCRJejunum.txt", header=TRUE, sep="\t")
+View(VCRJejunum)
+vvv1 <- (VCRJejunum$VCR1C)
+vvv2 <- (VCRJejunum$VCR1G)
+vvv3 <- (VCRJejunum$VCR2C)
+vvv4 <- (VCRJejunum$VCR2G)
+vvv5 <- (VCRJejunum$VCR3C)
+vvv6 <- (VCRJejunum$VCR3G)
+vvv7 <- (VCRJejunum$VCR4C)
+vvv8 <- (VCRJejunum$VCR4G)
+par(font.axis = 2)
+boxplot(vvv1, vvv2, vvv3, vvv4, vvv5, vvv6, vvv7, vvv8,
+                  ylab=expression(bold("Ratio")),
+                  col=(c("#7570B3","#E7298A")),
+                  pch = 20,
+                  xaxt="n",
+                  cex = 1.,
+                  cex.lab = 1.,
+                  cex.axis = 1.)
+text(x = 2, y = 2.9, label ="*", cex = 1.2, font = 2)
+text(x = 3, y = 2.4, label ="**", cex = 1.2, font = 2)
+text(x = 6, y = 4, label ="***", cex = 1.2, font = 2)
+text(x = 8, y = 2.7, label ="***", cex = 1.2, font = 2)
+axis(1, at = c(1.5, 3.5, 5.5, 7.5),
+labels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4"), las = 3)
+mtext("Villus Crypt Ratio", side=3, adj=0.5, line=0.6, cex=0.8, font=2, font.lab = 2)
+
+VHIleum=read.table("D:/VHIleum.txt", header=TRUE, sep="\t")
+View(VHIleum)
+hh1 <- (VHIleum$VH1C)
+hh2 <- (VHIleum$VH1G)
+hh3 <- (VHIleum$VH2C)
+hh4 <- (VHIleum$VH2G)
+hh5 <- (VHIleum$VH3C)
+hh6 <- (VHIleum$VH3G)
+hh7 <- (VHIleum$VH4C)
+hh8 <- (VHIleum$VH4G)
+par(font.axis = 2)
+boxplot(hh1, hh2, hh3, hh4, hh5, hh6, hh7, hh8,
+                  ylab = expression(bold(paste("Height ", mu, "m"))),
+                  col=(c("#7570B3","#E7298A")),
+                  pch = 20,
+                  xaxt="n",
+                  cex = 1.,
+                  cex.lab = 1.,
+                  cex.axis = 1.)
+text(x = 6, y = 520, label ="***", cex = 1.2, font = 2)
+text(x = 8, y = 510, label ="***", cex = 1.2, font = 2)
+axis(1, at = c(1.5, 3.5, 5.5, 7.5),
+labels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4"), las = 3)
+mtext("Ileum", side=3, adj=0, line=2, cex=1.2, font=2, font.lab = 2)
+mtext("Villus Height", side=3, adj=0.5, line=0.6, cex=0.8, font=2, font.lab = 2)
+
+CDIleum=read.table("D:/CDIleum.txt", header=TRUE, sep="\t")
+View(CDIleum)
+hhhh1 <- (CDIleum$CD1C)
+hhhh2 <- (CDIleum$CD1G)
+hhhh3 <- (CDIleum$CD2C)
+hhhh4 <- (CDIleum$CD2G)
+hhhh5 <- (CDIleum$CD3C)
+hhhh6 <- (CDIleum$CD3G)
+hhhh7 <- (CDIleum$CD4C)
+hhhh8 <- (CDIleum$CD4G)
+par(font.axis = 2)
+boxplot(hhhh1, hhh2, hhhh3, hhhh4, hhhh5, hhhh6, hhhh7, hhhh8,
+                  ylab = expression(bold(paste("Depth ", mu, "m"))),
+                  col=(c("#7570B3","#E7298A")),
+                  pch = 20,
+                  xaxt="n",
+                  cex = 1.,
+                  cex.lab = 1.,
+                  cex.axis = 1.)
+axis(1, at = c(1.5, 3.5, 5.5, 7.5),
+labels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4"), las = 3)
+mtext("Crypt Depth", side=3, adj=0.5, line=0.6, cex=0.8, font=2, font.lab = 2)
+
+VCRIleum=read.table("D:/VCRIleum.txt", header=TRUE, sep="\t")
+View(VCRIleum)
+vvvv1 <- (VCRIleum$VCR1C)
+vvvv2 <- (VCRIleum$VCR1G)
+vvvv3 <- (VCRIleum$VCR2C)
+vvvv4 <- (VCRIleum$VCR2G)
+vvvv5 <- (VCRIleum$VCR3C)
+vvvv6 <- (VCRIleum$VCR3G)
+vvvv7 <- (VCRIleum$VCR4C)
+vvvv8 <- (VCRIleum$VCR4G)
+par(font.axis = 2)
+boxplot(vvvv1, vvvv2, vvvv3, vvvv4, vvvv5, vvvv6, vvvv7, vvvv8,
+                  ylab=expression(bold("Ratio")),
+                  col=(c("#7570B3","#E7298A")),
+                  pch = 20,
+                  xaxt="n",
+                  cex = 1.,
+                  cex.lab = 1.,
+                  cex.axis = 1.)
+text(x = 6, y = 3.4, label ="***", cex = 1.2, font = 2)
+text(x = 8, y = 2.4, label ="***", cex = 1.2, font = 2)
+axis(1, at = c(1.5, 3.5, 5.5, 7.5),
+labels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4"), las = 3)
+mtext("Villus Crypt Ratio", side=3, adj=0.5, line=0.6, cex=0.8, font=2, font.lab = 2)
+dev.off()
