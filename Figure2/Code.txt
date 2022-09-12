@@ -1,0 +1,114 @@
+#FIGURE 2 PHYLA RELATIVE ABUNDANCE
+
+set.seed(3711)
+library(dplyr)
+library(RColorBrewer)
+
+tiff('D:/HAUPT1_ALL/Results/Figure2.tiff', pointsize=12, width=5400, height=3600, res=300)
+par(mfrow = c(2, 2))
+PhylaTrial1 = read.table("D:/HAUPT1_ALL/Results/TotalPhylumGraph1.txt", header=TRUE, sep="\t")
+PhylaTrial1 <- as.data.frame(PhylaTrial1)
+row.names(PhylaTrial1) = PhylaTrial1$Phylum
+PhylaTrial1$Phylum <- NULL
+row.names(PhylaTrial1)[5] <-  "Bacteria UC*"
+row.names(PhylaTrial1)[9] <-  "Deinococcus Thermus"
+PhylaTrial1 <- as.matrix(PhylaTrial1)
+PhylaTrial1[1, ] <- PhylaTrial1[1, ] - 50
+par(mar = c(6,4,4,14))
+barplot(PhylaTrial1,
+         width = c(0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6),
+         names.arg = c("NGD", "GD", "NGJ", "GJ", "NGI", "GI", "NGC", "GC", "NGCA", "GCA", "NGR", "GR"),
+         col = brewer.pal(n = 12, name = "Set3"),
+         ylab = "Relative Abundance %",
+         ylim = c(0, 50),
+         axes = F,
+         cex.lab = 1.4,
+         las = 3,
+         font = 2,
+         font.lab = 2,
+         cex.axis = 1.4,
+         cex.names = 1.4,
+         legend.text = rownames(PhylaTrial1),
+         args.legend=list(x = "topright", inset = c(-0.35, 0.2), cex=1.2, text.font = 2, bty = "n"))
+axis(2, at = seq(0, 50, by = 10), labels = seq(50, 100, by = 10), cex.axis = 1.4, font = 2)
+mtext("Trial 1", side=3, adj=0, line=1, cex=1.4, font=2, font.lab = 2)
+
+PhylaTrial2 = read.table("D:/HAUPT2_ALL/Results/TotalPhylumGraph2.txt", header=TRUE, sep="\t")
+PhylaTrial2 <- as.data.frame(PhylaTrial2)
+row.names(PhylaTrial2) = PhylaTrial2$Phylum
+PhylaTrial2$Phylum <- NULL
+row.names(PhylaTrial2)[6] <-  "Bacteria UC*"
+PhylaTrial2 <- as.matrix(PhylaTrial2)
+PhylaTrial2[1, ] <- PhylaTrial2[1, ] - 50
+par(mar = c(6,4,4,14))
+barplot(PhylaTrial2,
+         width = c(0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6),
+         names.arg = c("NGD", "GD", "NGJ", "GJ", "NGI", "GI", "NGC", "GC", "NGCA", "GCA", "NGR", "GR"),
+         col = brewer.pal(n = 12, name = "Set3"),
+         ylab = "Relative Abundance %",
+         ylim = c(0, 50),
+         axes = F,
+         cex.lab = 1.4,
+         las = 3,
+         font = 2,
+         font.lab = 2,
+         cex.axis = 1.4,
+         cex.names = 1.4,
+         legend.text = rownames(PhylaTrial2),
+         args.legend=list(x = "topright", inset = c(-0.265, 0.2), cex=1.2, text.font = 2, bty = "n"))
+axis(2, at = seq(0, 50, by = 10), labels = seq(50, 100, by = 10), cex.axis = 1.4, font = 2)
+mtext("Trial 2", side=3, adj=0, line=1, cex=1.4, font=2, font.lab = 2)
+
+PhylaTrial3 = read.table("D:/HAUPT3_ALL/Results/TotalPhylumGraph3.txt", header=TRUE, sep="\t")
+PhylaTrial3 <- as.data.frame(PhylaTrial3)
+row.names(PhylaTrial3) = PhylaTrial3$Phylum
+PhylaTrial3$Phylum <- NULL
+row.names(PhylaTrial3)[5] <-  "Bacteria UC*"
+row.names(PhylaTrial1)[10] <-  "Deinococcus Thermus"
+PhylaTrial3 <- as.matrix(PhylaTrial3)
+PhylaTrial3[1, ] <- PhylaTrial3[1, ] - 60
+par(mar = c(6,4,4,14))
+barplot(PhylaTrial3,
+         width = c(0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6),
+         names.arg = c("NGD", "GD", "NGJ", "GJ", "NGI", "GI", "NGC", "GC", "NGCA", "GCA", "NGR", "GR"),
+         col = brewer.pal(n = 12, name = "Set3"),
+         ylab = "Relative Abundance %",
+         ylim = c(0, 40),
+         axes = F,
+         cex.lab = 1.4,
+         las = 3,
+         font = 2,
+         font.lab = 2,
+         cex.axis = 1.4,
+         cex.names = 1.4,
+         legend.text = rownames(PhylaTrial3),
+         args.legend=list(x = "topright", inset = c(-0.35, 0.2), cex=1.2, text.font = 2, bty = "n"))
+axis(2, at = seq(0, 40, by = 10), labels = seq(60, 100, by = 10), cex.axis = 1.4, font = 2)
+mtext("Trial 3", side=3, adj=0, line=1, cex=1.4, font=2, font.lab = 2)
+
+PhylaTrial4 = read.table("D:/HAUPT4_ALL/Results/TotalPhylumGraph4.txt", header=TRUE, sep="\t")
+PhylaTrial4 <- as.data.frame(PhylaTrial4)
+row.names(PhylaTrial4) = PhylaTrial4$Phylum
+PhylaTrial4$Phylum <- NULL
+row.names(PhylaTrial4)[7] <-  "Bacteria UC*"
+PhylaTrial4 <- as.matrix(PhylaTrial4)
+PhylaTrial4[1, ] <- PhylaTrial4[1, ] - 50
+par(mar = c(6,4,4,14))
+barplot(PhylaTrial4,
+         width = c(0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6),
+         names.arg = c("NGD", "GD", "NGJ", "GJ", "NGI", "GI", "NGC", "GC", "NGCA", "GCA", "NGR", "GR"),
+         col = brewer.pal(n = 12, name = "Set3"),
+         ylab = "Relative Abundance %",
+         ylim = c(0, 50),
+         axes = F,
+         cex.lab = 1.4,
+         las = 3,
+         font = 2,
+         font.lab = 2,
+         cex.axis = 1.4,
+         cex.names = 1.4,
+         legend.text = rownames(PhylaTrial4),
+         args.legend=list(x = "topright", inset = c(-0.25, 0.2), cex=1.2, text.font = 2, bty = "n"))
+axis(2, at = seq(0, 50, by = 10), labels = seq(50, 100, by = 10), cex.axis = 1.4, font = 2)
+mtext("Trial 4", side=3, adj=0, line=1, cex=1.4, font=2, font.lab = 2)
+dev.off()
