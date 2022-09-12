@@ -1,2 +1,3 @@
 # Piglets
-Galacto-oligosaccharides increase abundance of beneficial probiotic bacteria, improve gut architecture and goblet cell expression in poorly performing piglets
+Galacto-oligosaccharides increase abundance of beneficial probiotic bacteria, improve gut architecture and goblet cell expression in poorly performing piglets.
+Galacto-oligosaccharide supplemented milk replacer significantly increased differential abundance of beneficial probiotic bacteria, particularly Lactobacillus and Bifidobacterium, improved gut architecture and goblet cell expression in poorly performing piglets. In these respects, galacto-oligosaccharide supplemented milk replacer may be a useful addition to animal husbandry in poorly performing, non-thriving animals when moved to environmentally controlled pens away from sows and fit siblings, thereby modulating the microbiome and gastrointestinal tract performance.
