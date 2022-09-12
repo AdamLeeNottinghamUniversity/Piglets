@@ -1,0 +1,685 @@
+SUPPLEMENTARY FIGURE 4A#
+
+set.seed(3711)
+library(dplyr)
+library(openxlsx)
+options(scipen=1000)
+tiff('F:/RFigure/LEFSETrial1.tiff', pointsize=10, width=2600, height=2600, res=300)
+LEFSEDuodenum = read.table("D:/HAUPT1_Updated/Duodenum/stability.opti_mcc.0.03.subsample.0.031.lefse_summary", header=TRUE, sep="\t")
+LEFSEDuodenum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT1_Updated/Duodenum/Results/Relative Abundance Duodenum1.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEDuodenum <- LEFSEDuodenum %>% slice(1:nrow)
+LEFSEDuodenum <-cbind(LEFSEDuodenum, RelativeAbundance)
+LEFSEDuodenum <- na.omit(LEFSEDuodenum)
+LEFSEDuodenum$Class = ifelse(LEFSEDuodenum$CONTROL < LEFSEDuodenum$GOS,"GOS","CONTROL")
+LEFSEDuodenum$pValue <- round(LEFSEDuodenum$pValue, digits = 3)
+LEFSEDuodenum$significance <- ifelse(LEFSEDuodenum$pValue < "0.001", "****",
+                      		ifelse(LEFSEDuodenum$pValue < "0.01", "***",
+                      		ifelse(LEFSEDuodenum$pValue < "0.025", "**",
+                      		ifelse(LEFSEDuodenum$pValue <= "0.05", "*"))))
+LEFSEDuodenum$Names = paste(LEFSEDuodenum$OTU, LEFSEDuodenum$Genus, LEFSEDuodenum$significance)
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(Class))
+
+LEFSEJejunum = read.table("D:/HAUPT1_Updated/Jejunum/stability.opti_mcc.0.03.subsample.0.032.lefse_summary", header=TRUE, sep="\t")
+LEFSEJejunum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT1_Updated/Jejunum/Results/Relative Abundance Jejunum1.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEJejunum <- LEFSEJejunum %>% slice(1:nrow)
+LEFSEJejunum <-cbind(LEFSEJejunum, RelativeAbundance)
+LEFSEJejunum <- na.omit(LEFSEJejunum)
+LEFSEJejunum$Class = ifelse(LEFSEJejunum$CONTROL < LEFSEJejunum$GOS,"GOS","CONTROL")
+LEFSEJejunum$pValue <- round(LEFSEJejunum$pValue, digits = 3)
+LEFSEJejunum$significance <- ifelse(LEFSEJejunum$pValue < "0.001", "****",
+                      		ifelse(LEFSEJejunum$pValue < "0.01", "***",
+                      		ifelse(LEFSEJejunum$pValue < "0.025", "**",
+                      		ifelse(LEFSEJejunum$pValue <= "0.05", "*"))))
+LEFSEJejunum$Names = paste(LEFSEJejunum$OTU, LEFSEJejunum$Genus, LEFSEJejunum$significance)
+LEFSEJejunum$Names [4] <- "Otu022 Pasteurellaceae UC *"
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(Class))
+
+LEFSEIleum = read.table("D:/HAUPT1_Updated/Ileum/stability.opti_mcc.0.03.subsample.0.033.lefse_summary", header=TRUE, sep="\t")
+LEFSEIleum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT1_Updated/Ileum/Results/Relative Abundance Ileum1.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:nrow)
+LEFSEIleum <-cbind(LEFSEIleum, RelativeAbundance)
+LEFSEIleum <- na.omit(LEFSEIleum)
+LEFSEIleum$Class = ifelse(LEFSEIleum$CONTROL < LEFSEIleum$GOS,"GOS","CONTROL")
+LEFSEIleum$pValue <- round(LEFSEIleum$pValue, digits = 3)
+LEFSEIleum$significance <- ifelse(LEFSEIleum$pValue < "0.001", "****",
+                      		ifelse(LEFSEIleum$pValue < "0.01", "***",
+                      		ifelse(LEFSEIleum$pValue < "0.025", "**",
+                      		ifelse(LEFSEIleum$pValue <= "0.05", "*"))))
+LEFSEIleum$Names = paste(LEFSEIleum$OTU, LEFSEIleum$Genus, LEFSEIleum$significance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:10)
+LEFSEIleum <- arrange(LEFSEIleum, desc(Class))
+
+LEFSECaecum = read.table("D:/HAUPT1_Updated/Caecum/stability.opti_mcc.0.03.subsample.0.034.lefse_summary", header=TRUE, sep="\t")
+LEFSECaecum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT1_Updated/Caecum/Results/Relative Abundance Caecum1.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:nrow)
+LEFSECaecum <-cbind(LEFSECaecum, RelativeAbundance)
+LEFSECaecum <- na.omit(LEFSECaecum)
+LEFSECaecum$Class = ifelse(LEFSECaecum$CONTROL < LEFSECaecum$GOS,"GOS","CONTROL")
+LEFSECaecum$pValue <- round(LEFSECaecum$pValue, digits = 3)
+LEFSECaecum$significance <- ifelse(LEFSECaecum$pValue < "0.001", "****",
+                      		ifelse(LEFSECaecum$pValue < "0.01", "***",
+                      		ifelse(LEFSECaecum$pValue < "0.025", "**",
+                      		ifelse(LEFSECaecum$pValue <= "0.05", "*"))))
+LEFSECaecum$Names = paste(LEFSECaecum$OTU, LEFSECaecum$Genus, LEFSECaecum$significance)
+LEFSECaecum$Names [7] <- "Otu085 Clostridiales UC *"
+LEFSECaecum$Names [8] <- "Otu091 Bacteroidales UC *"
+LEFSECaecum <- arrange(LEFSECaecum, desc(Class))
+
+LEFSEColon = read.table("D:/HAUPT1_Updated/Colon/stability.opti_mcc.0.03.subsample.0.035.lefse_summary", header=TRUE, sep="\t")
+LEFSEColon$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT1_Updated/Colon/Results/Relative Abundance Colon1.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEColon <- LEFSEColon %>% slice(1:nrow)
+LEFSEColon <-cbind(LEFSEColon, RelativeAbundance)
+LEFSEColon <- na.omit(LEFSEColon)
+LEFSEColon$Class = ifelse(LEFSEColon$CONTROL < LEFSEColon$GOS,"GOS","CONTROL")
+LEFSEColon$pValue <- round(LEFSEColon$pValue, digits = 3)
+LEFSEColon$significance <- ifelse(LEFSEColon$pValue < "0.001", "****",
+                      		ifelse(LEFSEColon$pValue < "0.01", "***",
+                      		ifelse(LEFSEColon$pValue < "0.025", "**",
+                      		ifelse(LEFSEColon$pValue <= "0.05", "*"))))
+LEFSEColon$Names = paste(LEFSEColon$OTU, LEFSEColon$Genus, LEFSEColon$significance)
+LEFSEColon$Names [7] <- "Otu073 Clostridiales UC *"
+LEFSEColon$Names [8] <- "Otu091 Clostridiales UC *"
+LEFSEColon <- arrange(LEFSEColon, desc(Class))
+
+LEFSERectum = read.table("D:/HAUPT1_Updated/Rectum/stability.opti_mcc.0.03.subsample.0.036.lefse_summary", header=TRUE, sep="\t")
+LEFSERectum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT1_Updated/Rectum/Results/Relative Abundance Rectum1.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSERectum <- LEFSERectum %>% slice(1:nrow)
+LEFSERectum <-cbind(LEFSERectum, RelativeAbundance)
+LEFSERectum <- na.omit(LEFSERectum)
+LEFSERectum$Class = ifelse(LEFSERectum$CONTROL < LEFSERectum$GOS,"GOS","CONTROL")
+LEFSERectum$pValue <- round(LEFSERectum$pValue, digits = 3)
+LEFSERectum$significance <- ifelse(LEFSERectum$pValue < "0.001", "****",
+                      		ifelse(LEFSERectum$pValue < "0.01", "***",
+                      		ifelse(LEFSERectum$pValue < "0.025", "**",
+                      		ifelse(LEFSERectum$pValue <= "0.05", "*"))))
+LEFSERectum$Names = paste(LEFSERectum$OTU, LEFSERectum$Genus, LEFSERectum$significance)
+LEFSERectum <- LEFSERectum %>% slice(1:10)
+LEFSERectum$Names [4] <- "Otu024 Firmicutes UC *"
+LEFSERectum$Names [6] <- "Otu043 Ruminococcaceae UC *"
+LEFSERectum$Names [8] <- "Otu065 Clostridiales UC *"
+LEFSERectum <- arrange(LEFSERectum, desc(Class))
+
+LEFSETRIAL1 <- rbind(LEFSEDuodenum, LEFSEJejunum, LEFSEIleum, LEFSECaecum, LEFSEColon, LEFSERectum)
+LEFSETRIAL1Graph <- select(LEFSETRIAL1, Names, LDA, Class)
+my_palette3 <- c("#7570B3", "#E7298A")
+
+par(mar = c(4, 16, 4, 0.5))
+barplot(LEFSETRIAL1Graph$LDA,
+         horiz = TRUE,
+         col = my_palette3[as.factor(LEFSETRIAL1Graph$Class)],
+         xlim = c(0, 5),
+         xlab ="LDA Score log 10",
+         font.lab = 2,
+         font = 2,
+         names.arg = LEFSETRIAL1Graph$Names,
+	 las = 1,
+         cex.names = 0.9,
+         cex.lab = 1.0)
+abline(h=0.1, lwd = 2)
+abline(h=9.69, lwd = 2)
+abline(h=16.88, lwd = 2)
+abline(h=28.9, lwd = 2)
+abline(h=38.5, lwd = 2)
+abline(h=48.1, lwd = 2)
+abline(h=60, lwd = 2)
+legend("topleft", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, h = TRUE, pch = 15, text.font = 2, col = c("#7570B3", "#E7298A"))
+mtext("Trial 1", side=3, adj=-0.25, line=0.5, cex=1.2, font=2, font.lab = 2)
+text(x = 4.7, y = 8, label ="Duodenum", cex = 1, font = 2)
+text(x = 4.7, y = 15, label ="Jejunum", cex = 1, font = 2)
+text(x = 4.7, y = 27, label ="Ileum", cex = 1, font = 2)
+text(x = 4.7, y = 37, label ="Caecum", cex = 1, font = 2)
+text(x = 4.7, y = 46.5, label ="Colon", cex = 1, font = 2)
+text(x = 4.7, y = 58, label ="Rectum", cex = 1, font = 2)
+text(2.5, 61, label = substitute(paste(italic("*P"), " = 0.05")), font = 2, col = "black")
+text(3.5, 61, label = substitute(paste(italic("**P"), " = 0.025")), font = 2, col = "black")
+text(4.5, 61, label = substitute(paste(italic("***P"), " = 0.01")), font = 2, col = "black")
+dev.off()
+
+#SUPPLEMENTARY FIGURE 4B
+
+set.seed(3711)
+library(dplyr)
+library(openxlsx)
+options(scipen=1000)
+tiff('F:/RFigure/LEFSETrial2.tiff', pointsize=10, width=2600, height=2600, res=300)
+LEFSEDuodenum = read.table("D:/HAUPT2_Updated/Duodenum/stability.opti_mcc.0.03.subsample.0.037.lefse_summary", header=TRUE, sep="\t")
+LEFSEDuodenum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT2_Updated/Duodenum/Results/Relative Abundance Duodenum2.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEDuodenum <- LEFSEDuodenum %>% slice(1:nrow)
+LEFSEDuodenum <-cbind(LEFSEDuodenum, RelativeAbundance)
+LEFSEDuodenum <- na.omit(LEFSEDuodenum)
+LEFSEDuodenum$Class = ifelse(LEFSEDuodenum$CONTROL < LEFSEDuodenum$GOS,"GOS","CONTROL")
+LEFSEDuodenum$pValue <- round(LEFSEDuodenum$pValue, digits = 3)
+LEFSEDuodenum$significance <- ifelse(LEFSEDuodenum$pValue < "0.001", "****",
+                      		ifelse(LEFSEDuodenum$pValue < "0.01", "***",
+                      		ifelse(LEFSEDuodenum$pValue < "0.025", "**",
+                      		ifelse(LEFSEDuodenum$pValue <= "0.05", "*"))))
+LEFSEDuodenum$Names = paste(LEFSEDuodenum$OTU, LEFSEDuodenum$Genus, LEFSEDuodenum$significance)
+LEFSEDuodenum$Names [7] <- "Otu029 Clostridium sensu stricto *"
+LEFSEDuodenum <- LEFSEDuodenum %>% slice(1:10)
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(LDA))
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(Class))
+
+
+LEFSEJejunum = read.table("D:/HAUPT2_Updated/Jejunum/stability.opti_mcc.0.03.subsample.0.038.lefse_summary", header=TRUE, sep="\t")
+LEFSEJejunum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT2_Updated/Jejunum/Results/Relative Abundance Jejunum2.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEJejunum <- LEFSEJejunum %>% slice(1:nrow)
+LEFSEJejunum <-cbind(LEFSEJejunum, RelativeAbundance)
+LEFSEJejunum <- na.omit(LEFSEJejunum)
+LEFSEJejunum$Class = ifelse(LEFSEJejunum$CONTROL < LEFSEJejunum$GOS,"GOS","CONTROL")
+LEFSEJejunum$pValue <- round(LEFSEJejunum$pValue, digits = 3)
+LEFSEJejunum$significance <- ifelse(LEFSEJejunum$pValue < "0.001", "****",
+                      		ifelse(LEFSEJejunum$pValue < "0.01", "***",
+                      		ifelse(LEFSEJejunum$pValue < "0.025", "**",
+                      		ifelse(LEFSEJejunum$pValue <= "0.05", "*"))))
+LEFSEJejunum$Names = paste(LEFSEJejunum$OTU, LEFSEJejunum$Genus, LEFSEJejunum$significance)
+LEFSEJejunum <- LEFSEJejunum %>% slice(1:10)
+LEFSEJejunum$Names [3] <- "Otu006 Pasteurellaceae UC *"
+LEFSEJejunum$Names [9] <- "Otu031 Enterobacteriaceae UC *"
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(LDA))
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(Class))
+
+
+LEFSEIleum = read.table("D:/HAUPT2_Updated/Ileum/stability.opti_mcc.0.03.subsample.0.039.lefse_summary", header=TRUE, sep="\t")
+LEFSEIleum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT2_Updated/Ileum/Results/Relative Abundance Ileum2.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:nrow)
+LEFSEIleum <-cbind(LEFSEIleum, RelativeAbundance)
+LEFSEIleum <- na.omit(LEFSEIleum)
+LEFSEIleum$Class = ifelse(LEFSEIleum$CONTROL < LEFSEIleum$GOS,"GOS","CONTROL")
+LEFSEIleum$pValue <- round(LEFSEIleum$pValue, digits = 3)
+LEFSEIleum$significance <- ifelse(LEFSEIleum$pValue < "0.001", "****",
+                      		ifelse(LEFSEIleum$pValue < "0.01", "***",
+                      		ifelse(LEFSEIleum$pValue < "0.025", "**",
+                      		ifelse(LEFSEIleum$pValue <= "0.05", "*"))))
+LEFSEIleum$Names = paste(LEFSEIleum$OTU, LEFSEIleum$Genus, LEFSEIleum$significance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:10)
+LEFSEIleum$Names [8] <- "Otu045 Pasteurellaceae UC **"
+LEFSEIleum <- arrange(LEFSEIleum, desc(LDA))
+LEFSEIleum <- arrange(LEFSEIleum, desc(Class))
+
+
+
+LEFSECaecum = read.table("D:/HAUPT2_Updated/Caecum/stability.opti_mcc.0.03.subsample.0.0310.lefse_summary", header=TRUE, sep="\t")
+LEFSECaecum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT2_Updated/Caecum/Results/Relative Abundance Caecum2.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:nrow)
+LEFSECaecum <-cbind(LEFSECaecum, RelativeAbundance)
+LEFSECaecum <- na.omit(LEFSECaecum)
+LEFSECaecum$Class = ifelse(LEFSECaecum$CONTROL < LEFSECaecum$GOS,"GOS","CONTROL")
+LEFSECaecum$pValue <- round(LEFSECaecum$pValue, digits = 3)
+LEFSECaecum$significance <- ifelse(LEFSECaecum$pValue < "0.001", "****",
+                      		ifelse(LEFSECaecum$pValue < "0.01", "***",
+                      		ifelse(LEFSECaecum$pValue < "0.025", "**",
+                      		ifelse(LEFSECaecum$pValue <= "0.05", "*"))))
+LEFSECaecum$Names = paste(LEFSECaecum$OTU, LEFSECaecum$Genus, LEFSECaecum$significance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:10)
+LEFSECaecum <- arrange(LEFSECaecum, desc(LDA))
+LEFSECaecum <- arrange(LEFSECaecum, desc(Class))
+
+
+LEFSEColon = read.table("D:/HAUPT2_Updated/Colon/stability.opti_mcc.0.03.subsample.0.0311.lefse_summary", header=TRUE, sep="\t")
+LEFSEColon$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT2_Updated/Colon/Results/Relative Abundance Colon2.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEColon <- LEFSEColon %>% slice(1:nrow)
+LEFSEColon <-cbind(LEFSEColon, RelativeAbundance)
+LEFSEColon <- na.omit(LEFSEColon)
+LEFSEColon$Class = ifelse(LEFSEColon$CONTROL < LEFSEColon$GOS,"GOS","CONTROL")
+LEFSEColon$pValue <- round(LEFSEColon$pValue, digits = 3)
+LEFSEColon$significance <- ifelse(LEFSEColon$pValue < "0.001", "****",
+                      		ifelse(LEFSEColon$pValue < "0.01", "***",
+                      		ifelse(LEFSEColon$pValue < "0.025", "**",
+                      		ifelse(LEFSEColon$pValue <= "0.05", "*"))))
+LEFSEColon$Names = paste(LEFSEColon$OTU, LEFSEColon$Genus, LEFSEColon$significance)
+LEFSEColon <- LEFSEColon %>% slice(1:10)
+LEFSEColon$Names [10] <- "Otu091 Ruminococcaceae UC *"
+LEFSEColon <- arrange(LEFSEColon, desc(LDA))
+LEFSEColon <- arrange(LEFSEColon, desc(Class))
+
+
+LEFSERectum = read.table("D:/HAUPT2_Updated/Rectum/stability.opti_mcc.0.03.subsample.0.0312.lefse_summary", header=TRUE, sep="\t")
+LEFSERectum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT2_Updated/Rectum/Results/Relative Abundance Rectum2.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.1, ]
+nrow <- nrow(RelativeAbundance)
+LEFSERectum <- LEFSERectum %>% slice(1:nrow)
+LEFSERectum <-cbind(LEFSERectum, RelativeAbundance)
+LEFSERectum <- na.omit(LEFSERectum)
+LEFSERectum$Class = ifelse(LEFSERectum$CONTROL < LEFSERectum$GOS,"GOS","CONTROL")
+LEFSERectum$pValue <- round(LEFSERectum$pValue, digits = 3)
+LEFSERectum$significance <- ifelse(LEFSERectum$pValue < "0.001", "****",
+                      		ifelse(LEFSERectum$pValue < "0.01", "***",
+                      		ifelse(LEFSERectum$pValue < "0.025", "**",
+                      		ifelse(LEFSERectum$pValue <= "0.05", "*"))))
+LEFSERectum$Names = paste(LEFSERectum$OTU, LEFSERectum$Genus, LEFSERectum$significance)
+LEFSERectum <- LEFSERectum %>% slice(1:10)
+LEFSERectum$Names [10] <- "Otu058 Porphyromonadaceae UC **"
+LEFSERectum <- arrange(LEFSERectum, desc(LDA))
+LEFSERectum <- arrange(LEFSERectum, desc(Class))
+
+LEFSETrial2 <- rbind(LEFSEDuodenum, LEFSEJejunum, LEFSEIleum, LEFSECaecum, LEFSEColon, LEFSERectum)
+LEFSETrial2Graph <- select(LEFSETrial2, Names, LDA, Class)
+my_palette3 <- c("#7570B3", "#E7298A")
+
+par(mar = c(4, 16, 4, 0.5))
+barplot(LEFSETrial2Graph$LDA,
+         horiz = TRUE,
+         col = my_palette3[as.factor(LEFSETrial2Graph$Class)],
+         xlim = c(0, 6),
+         xlab ="LDA Score log 10",
+         font.lab = 2,
+         font = 2,
+         names.arg = LEFSETrial2Graph$Names,
+	 las = 1,
+         cex.names = 0.8,
+         cex.lab = 1.0)
+abline(h=0.1, lwd = 2)
+abline(h=12, lwd = 2)
+abline(h=24.1, lwd = 2)
+abline(h=36.1, lwd = 2)
+abline(h=48.1, lwd = 2)
+abline(h=60, lwd = 2)
+abline(h=72.1, lwd = 2)
+legend(x = 0, y = 76, c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1.2, h = TRUE, pch = 15, text.font = 2, col = c("#7570B3", "#E7298A"))
+mtext("Trial 2", side=3, adj=-0.25, line=0, cex=1.2, font=2, font.lab = 2)
+text(x = 5.5, y = 10, label ="Duodenum", cex = 1, font = 2)
+text(x = 5.5, y = 22, label ="Jejunum", cex = 1, font = 2)
+text(x = 5.5, y = 33, label ="Ileum", cex = 1, font = 2)
+text(x = 5.5, y = 45.5, label ="Caecum", cex = 1, font = 2)
+text(x = 5.5, y = 57.5, label ="Colon", cex = 1, font = 2)
+text(x = 5.5, y = 69.5, label ="Rectum", cex = 1, font = 2)
+text(3.5, 74, label = substitute(paste(italic("*P"), " = 0.05")), font = 2, col = "black")
+text(4.5, 74, label = substitute(paste(italic("**P"), " = 0.025")), font = 2, col = "black")
+text(5.5, 74, label = substitute(paste(italic("***P"), " = 0.01")), font = 2, col = "black")
+dev.off()
+
+SUPPLEMENTARY FIGURE 4C
+
+set.seed(3711)
+library(dplyr)
+library(openxlsx)
+options(scipen=1000)
+tiff('F:/RFigure/LEFSETrial3.tiff', pointsize=10, width=2600, height=2600, res=300)
+LEFSEDuodenum = read.table("D:/HAUPT3_Updated/Duodenum/stability.opti_mcc.0.03.subsample.0.0313.lefse_summary", header=TRUE, sep="\t")
+LEFSEDuodenum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT3_Updated/Duodenum/Results/Relative Abundance Duodenum3.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEDuodenum <- LEFSEDuodenum %>% slice(1:nrow)
+LEFSEDuodenum <-cbind(LEFSEDuodenum, RelativeAbundance)
+LEFSEDuodenum <- na.omit(LEFSEDuodenum)
+LEFSEDuodenum$Class = ifelse(LEFSEDuodenum$CONTROL < LEFSEDuodenum$GOS,"GOS","CONTROL")
+LEFSEDuodenum$pValue <- round(LEFSEDuodenum$pValue, digits = 3)
+LEFSEDuodenum$significance <- ifelse(LEFSEDuodenum$pValue < "0.001", "****",
+                      		ifelse(LEFSEDuodenum$pValue < "0.01", "***",
+                      		ifelse(LEFSEDuodenum$pValue < "0.025", "**",
+                      		ifelse(LEFSEDuodenum$pValue <= "0.05", "*"))))
+LEFSEDuodenum$Names = paste(LEFSEDuodenum$OTU, LEFSEDuodenum$Genus, LEFSEDuodenum$significance)
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(LDA))
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(Class))
+
+
+LEFSEJejunum = read.table("D:/HAUPT3_Updated/Jejunum/stability.opti_mcc.0.03.subsample.0.0314.lefse_summary", header=TRUE, sep="\t")
+LEFSEJejunum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT3_Updated/Jejunum/Results/Relative Abundance Jejunum3.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEJejunum <- LEFSEJejunum %>% slice(1:nrow)
+LEFSEJejunum <-cbind(LEFSEJejunum, RelativeAbundance)
+LEFSEJejunum <- na.omit(LEFSEJejunum)
+LEFSEJejunum$Class = ifelse(LEFSEJejunum$CONTROL < LEFSEJejunum$GOS,"GOS","CONTROL")
+LEFSEJejunum$pValue <- round(LEFSEJejunum$pValue, digits = 3)
+LEFSEJejunum$significance <- ifelse(LEFSEJejunum$pValue < "0.001", "****",
+                      		ifelse(LEFSEJejunum$pValue < "0.01", "***",
+                      		ifelse(LEFSEJejunum$pValue < "0.025", "**",
+                      		ifelse(LEFSEJejunum$pValue <= "0.05", "*"))))
+LEFSEJejunum$Names = paste(LEFSEJejunum$OTU, LEFSEJejunum$Genus, LEFSEJejunum$significance)
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(LDA))
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(Class))
+
+
+LEFSEIleum = read.table("D:/HAUPT3_Updated/Ileum/stability.opti_mcc.0.03.subsample.0.0315.lefse_summary", header=TRUE, sep="\t")
+LEFSEIleum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT3_Updated/Ileum/Results/Relative Abundance Ileum3.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:nrow)
+LEFSEIleum <-cbind(LEFSEIleum, RelativeAbundance)
+LEFSEIleum <- na.omit(LEFSEIleum)
+LEFSEIleum$Class = ifelse(LEFSEIleum$CONTROL < LEFSEIleum$GOS,"GOS","CONTROL")
+LEFSEIleum$pValue <- round(LEFSEIleum$pValue, digits = 3)
+LEFSEIleum$significance <- ifelse(LEFSEIleum$pValue < "0.001", "****",
+                      		ifelse(LEFSEIleum$pValue < "0.01", "***",
+                      		ifelse(LEFSEIleum$pValue < "0.025", "**",
+                      		ifelse(LEFSEIleum$pValue <= "0.05", "*"))))
+LEFSEIleum$Names = paste(LEFSEIleum$OTU, LEFSEIleum$Genus, LEFSEIleum$significance)
+LEFSEIleum$Names [4] <- "Otu039 Clostridium sensu stricto *"
+LEFSEIleum <- arrange(LEFSEIleum, desc(LDA))
+LEFSEIleum <- arrange(LEFSEIleum, desc(Class))
+
+
+LEFSECaecum = read.table("D:/HAUPT3_Updated/Caecum/stability.opti_mcc.0.03.subsample.0.0316.lefse_summary", header=TRUE, sep="\t")
+LEFSECaecum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT3_Updated/Caecum/Results/Relative Abundance Caecum3.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:nrow)
+LEFSECaecum <-cbind(LEFSECaecum, RelativeAbundance)
+LEFSECaecum <- na.omit(LEFSECaecum)
+LEFSECaecum$Class = ifelse(LEFSECaecum$CONTROL < LEFSECaecum$GOS,"GOS","CONTROL")
+LEFSECaecum$pValue <- round(LEFSECaecum$pValue, digits = 3)
+LEFSECaecum$significance <- ifelse(LEFSECaecum$pValue < "0.001", "****",
+                      		ifelse(LEFSECaecum$pValue < "0.01", "***",
+                      		ifelse(LEFSECaecum$pValue < "0.025", "**",
+                      		ifelse(LEFSECaecum$pValue <= "0.05", "*"))))
+LEFSECaecum$Names = paste(LEFSECaecum$OTU, LEFSECaecum$Genus, LEFSECaecum$significance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:10)
+LEFSECaecum$Names [2] <- "Otu020 Veillonellaceae UC **"
+LEFSECaecum$Names [3] <- "Otu025 Bacteroidetes UC *"
+LEFSECaecum$Names [7] <- "Otu044 Clostridiales UC **"
+LEFSECaecum$Names [8] <- "Otu050 Prevotellaceae UC *"
+LEFSECaecum <- arrange(LEFSECaecum, desc(LDA))
+LEFSECaecum <- arrange(LEFSECaecum, desc(Class))
+
+LEFSEColon = read.table("D:/HAUPT3_Updated/Colon/stability.opti_mcc.0.03.subsample.0.0317.lefse_summary", header=TRUE, sep="\t")
+LEFSEColon$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT3_Updated/Colon/Results/Relative Abundance Colon3.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEColon <- LEFSEColon %>% slice(1:nrow)
+LEFSEColon <-cbind(LEFSEColon, RelativeAbundance)
+LEFSEColon <- na.omit(LEFSEColon)
+LEFSEColon$Class = ifelse(LEFSEColon$CONTROL < LEFSEColon$GOS,"GOS","CONTROL")
+LEFSEColon$pValue <- round(LEFSEColon$pValue, digits = 3)
+LEFSEColon$significance <- ifelse(LEFSEColon$pValue < "0.001", "****",
+                      		ifelse(LEFSEColon$pValue < "0.01", "***",
+                      		ifelse(LEFSEColon$pValue < "0.025", "**",
+                      		ifelse(LEFSEColon$pValue <= "0.05", "*"))))
+LEFSEColon$Names = paste(LEFSEColon$OTU, LEFSEColon$Genus, LEFSEColon$significance)
+LEFSEColon <- LEFSEColon %>% slice(1:10)
+LEFSEColon$Names [1] <- "Otu006 Ruminococcaceae UC **"
+LEFSEColon$Names [2] <- "Otu016 Xanthomonadaceae UC **"
+LEFSEColon$Names [3] <- "Otu021 Clostridium III *"
+LEFSEColon$Names [5] <- "Otu024 Clostridiales UC *"
+LEFSEColon$Names [7] <- "Otu055 Ruminococcaceae UC *"
+LEFSEColon$Names [9] <- "Otu074 Bacteria UC *"
+LEFSEColon <- arrange(LEFSEColon, desc(LDA))
+LEFSEColon <- arrange(LEFSEColon, desc(Class))
+
+LEFSERectum = read.table("D:/HAUPT3_Updated/Rectum/stability.opti_mcc.0.03.subsample.0.0318.lefse_summary", header=TRUE, sep="\t")
+LEFSERectum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT3_Updated/Rectum/Results/Relative Abundance Rectum3.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSERectum <- LEFSERectum %>% slice(1:nrow)
+LEFSERectum <-cbind(LEFSERectum, RelativeAbundance)
+LEFSERectum <- na.omit(LEFSERectum)
+LEFSERectum$Class = ifelse(LEFSERectum$CONTROL < LEFSERectum$GOS,"GOS","CONTROL")
+LEFSERectum$pValue <- round(LEFSERectum$pValue, digits = 3)
+LEFSERectum$significance <- ifelse(LEFSERectum$pValue < "0.001", "****",
+                      		ifelse(LEFSERectum$pValue < "0.01", "***",
+                      		ifelse(LEFSERectum$pValue < "0.025", "**",
+                      		ifelse(LEFSERectum$pValue <= "0.05", "*"))))
+LEFSERectum$Names = paste(LEFSERectum$OTU, LEFSERectum$Genus, LEFSERectum$significance)
+LEFSERectum <- LEFSERectum %>% slice(1:10)
+LEFSERectum$Names [4] <- "Otu020 Ruminococcaceae UC *"
+LEFSERectum$Names [5] <- "Otu024 Peptostreptococcaceae UC *"
+LEFSERectum$Names [6] <- "Otu030 Ruminococcaceae UC *"
+LEFSERectum$Names [7] <- "Otu039 Clostridium XIVb **"
+LEFSERectum$Names [10] <- "Otu050 Firmicutes UC *"
+LEFSERectum <- arrange(LEFSERectum, desc(LDA))
+LEFSERectum <- arrange(LEFSERectum, desc(Class))
+
+LEFSETrial3 <- rbind(LEFSEDuodenum, LEFSEJejunum, LEFSEIleum, LEFSECaecum, LEFSEColon, LEFSERectum)
+LEFSETrial3Graph <- select(LEFSETrial3, Names, LDA, Class)
+my_palette3 <- c("#7570B3", "#E7298A")
+
+par(mar = c(4, 16, 4, 0.5))
+barplot(LEFSETrial3Graph$LDA,
+         horiz = TRUE,
+         col = my_palette3[as.factor(LEFSETrial3Graph$Class)],
+         xlim = c(0, 5),
+         xlab ="LDA Score log 10",
+         font.lab = 2,
+         font = 2,
+         names.arg = LEFSETrial3Graph$Names,
+	 las = 1,
+         cex.names = 0.8,
+         cex.lab = 1.0)
+abline(h=0.1, lwd = 2)
+abline(h=6.1, lwd = 2)
+abline(h=18.1, lwd = 2)
+abline(h=27.7, lwd = 2)
+abline(h=39.7, lwd = 2)
+abline(h=51.65, lwd = 2)
+abline(h=63.51, lwd = 2)
+legend(x = 0, y = 66.5, c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1.2, h = TRUE, pch = 15, text.font = 2, col = c("#7570B3", "#E7298A"))
+mtext("Trial 3", side=3, adj=-0.25, line=0, cex=1.2, font=2, font.lab = 2)
+text(x = 4.5, y = 4, label ="Duodenum", cex = 1, font = 2)
+text(x = 4.5, y = 16, label ="Jejunum", cex = 1, font = 2)
+text(x = 4.5, y = 25, label ="Ileum", cex = 1, font = 2)
+text(x = 4.5, y = 37, label ="Caecum", cex = 1, font = 2)
+text(x = 4.5, y = 49, label ="Colon", cex = 1, font = 2)
+text(x = 4.5, y = 61.25, label ="Rectum", cex = 1, font = 2)
+text(3, 64.8, label = substitute(paste(italic("*P"), " = 0.05")), font = 2, col = "black")
+text(3.75, 64.8, label = substitute(paste(italic("**P"), " = 0.025")), font = 2, col = "black")
+text(4.5, 64.8, label = substitute(paste(italic("***P"), " = 0.01")), font = 2, col = "black")
+dev.off()
+
+#SUPPLEMENTARY FIGURE 4D
+
+set.seed(3711)
+library(dplyr)
+library(openxlsx)
+options(scipen=1000)
+tiff('F:/RFigure/LEFSETrial4.tiff', pointsize=10, width=2600, height=2600, res=300)
+LEFSEDuodenum = read.table("D:/HAUPT4_Updated/Duodenum/stability.opti_mcc.0.03.subsample.0.0319.lefse_summary", header=TRUE, sep="\t")
+LEFSEDuodenum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT4_Updated/Duodenum/Results/Relative Abundance Duodenum4.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEDuodenum <- LEFSEDuodenum %>% slice(1:nrow)
+LEFSEDuodenum <-cbind(LEFSEDuodenum, RelativeAbundance)
+LEFSEDuodenum <- na.omit(LEFSEDuodenum)
+LEFSEDuodenum$Class = ifelse(LEFSEDuodenum$CONTROL < LEFSEDuodenum$GOS,"GOS","CONTROL")
+LEFSEDuodenum$pValue <- round(LEFSEDuodenum$pValue, digits = 3)
+LEFSEDuodenum$significance <- ifelse(LEFSEDuodenum$pValue < "0.001", "****",
+                      		ifelse(LEFSEDuodenum$pValue < "0.01", "***",
+                      		ifelse(LEFSEDuodenum$pValue < "0.025", "**",
+                      		ifelse(LEFSEDuodenum$pValue <= "0.05", "*"))))
+LEFSEDuodenum$Names = paste(LEFSEDuodenum$OTU, LEFSEDuodenum$Genus, LEFSEDuodenum$significance)
+LEFSEDuodenum <- LEFSEDuodenum %>% slice(1:10)
+LEFSEDuodenum$Names [4] <- "Otu022 Veillonellaceae UC *"
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(LDA))
+LEFSEDuodenum <- arrange(LEFSEDuodenum, desc(Class))
+
+LEFSEJejunum = read.table("D:/HAUPT4_Updated/Jejunum/stability.opti_mcc.0.03.subsample.0.0320.lefse_summary", header=TRUE, sep="\t")
+LEFSEJejunum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT4_Updated/Jejunum/Results/Relative Abundance Jejunum4.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEJejunum <- LEFSEJejunum %>% slice(1:nrow)
+LEFSEJejunum <-cbind(LEFSEJejunum, RelativeAbundance)
+LEFSEJejunum <- na.omit(LEFSEJejunum)
+LEFSEJejunum$Class = ifelse(LEFSEJejunum$CONTROL < LEFSEJejunum$GOS,"GOS","CONTROL")
+LEFSEJejunum$pValue <- round(LEFSEJejunum$pValue, digits = 3)
+LEFSEJejunum$significance <- ifelse(LEFSEJejunum$pValue < "0.001", "****",
+                      		ifelse(LEFSEJejunum$pValue < "0.01", "***",
+                      		ifelse(LEFSEJejunum$pValue < "0.025", "**",
+                      		ifelse(LEFSEJejunum$pValue <= "0.05", "*"))))
+LEFSEJejunum$Names = paste(LEFSEJejunum$OTU, LEFSEJejunum$Genus, LEFSEJejunum$significance)
+LEFSEJejunum <- LEFSEJejunum %>% slice(1:10)
+LEFSEJejunum$Names [1] <- "Otu021 Pasteurellaceae UC *"
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(LDA))
+LEFSEJejunum <- arrange(LEFSEJejunum, desc(Class))
+
+LEFSEIleum = read.table("D:/HAUPT4_Updated/Ileum/stability.opti_mcc.0.03.subsample.0.0321.lefse_summary", header=TRUE, sep="\t")
+LEFSEIleum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT4_Updated/Ileum/Results/Relative Abundance Ileum4.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:nrow)
+LEFSEIleum <-cbind(LEFSEIleum, RelativeAbundance)
+LEFSEIleum <- na.omit(LEFSEIleum)
+LEFSEIleum$Class = ifelse(LEFSEIleum$CONTROL < LEFSEIleum$GOS,"GOS","CONTROL")
+LEFSEIleum$pValue <- round(LEFSEIleum$pValue, digits = 3)
+LEFSEIleum$significance <- ifelse(LEFSEIleum$pValue < "0.001", "****",
+                      		ifelse(LEFSEIleum$pValue < "0.01", "***",
+                      		ifelse(LEFSEIleum$pValue < "0.025", "**",
+                      		ifelse(LEFSEIleum$pValue <= "0.05", "*"))))
+LEFSEIleum$Names = paste(LEFSEIleum$OTU, LEFSEIleum$Genus, LEFSEIleum$significance)
+LEFSEIleum <- LEFSEIleum %>% slice(1:10)
+LEFSEIleum <- arrange(LEFSEIleum, desc(LDA))
+LEFSEIleum <- arrange(LEFSEIleum, desc(Class))
+
+LEFSECaecum = read.table("D:/HAUPT4_Updated/Caecum/stability.opti_mcc.0.03.subsample.0.0322.lefse_summary", header=TRUE, sep="\t")
+LEFSECaecum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT4_Updated/Caecum/Results/Relative Abundance Caecum4.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:nrow)
+LEFSECaecum <-cbind(LEFSECaecum, RelativeAbundance)
+LEFSECaecum <- na.omit(LEFSECaecum)
+LEFSECaecum$Class = ifelse(LEFSECaecum$CONTROL < LEFSECaecum$GOS,"GOS","CONTROL")
+LEFSECaecum$pValue <- round(LEFSECaecum$pValue, digits = 3)
+LEFSECaecum$significance <- ifelse(LEFSECaecum$pValue < "0.001", "****",
+                      		ifelse(LEFSECaecum$pValue < "0.01", "***",
+                      		ifelse(LEFSECaecum$pValue < "0.025", "**",
+                      		ifelse(LEFSECaecum$pValue <= "0.05", "*"))))
+LEFSECaecum$Names = paste(LEFSECaecum$OTU, LEFSECaecum$Genus, LEFSECaecum$significance)
+LEFSECaecum <- LEFSECaecum %>% slice(1:10)
+LEFSECaecum$Names [1] <- "Otu001 Enterobacteriaceae UC *"
+LEFSECaecum$Names [7] <- "Otu009 Veillonellaceae UC **"
+LEFSECaecum <- arrange(LEFSECaecum, desc(LDA))
+LEFSECaecum <- arrange(LEFSECaecum, desc(Class))
+
+LEFSEColon = read.table("D:/HAUPT4_Updated/Colon/stability.opti_mcc.0.03.subsample.0.0323.lefse_summary", header=TRUE, sep="\t")
+LEFSEColon$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT4_Updated/Colon/Results/Relative Abundance Colon4.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSEColon <- LEFSEColon %>% slice(1:nrow)
+LEFSEColon <-cbind(LEFSEColon, RelativeAbundance)
+LEFSEColon <- na.omit(LEFSEColon)
+LEFSEColon$Class = ifelse(LEFSEColon$CONTROL < LEFSEColon$GOS,"GOS","CONTROL")
+LEFSEColon$pValue <- round(LEFSEColon$pValue, digits = 3)
+LEFSEColon$significance <- ifelse(LEFSEColon$pValue < "0.001", "****",
+                      		ifelse(LEFSEColon$pValue < "0.01", "***",
+                      		ifelse(LEFSEColon$pValue < "0.025", "**",
+                      		ifelse(LEFSEColon$pValue <= "0.05", "*"))))
+LEFSEColon$Names = paste(LEFSEColon$OTU, LEFSEColon$Genus, LEFSEColon$significance)
+LEFSEColon <- LEFSEColon %>% slice(1:10)
+LEFSEColon$Names [7] <- "Otu022 Clostridium XIVa *"
+LEFSEColon$Names [8] <- "Otu030 Erysipelotrichaceae UC ***"
+LEFSEColon <- arrange(LEFSEColon, desc(LDA))
+LEFSEColon <- arrange(LEFSEColon, desc(Class))
+
+LEFSERectum = read.table("D:/HAUPT4_Updated/Rectum/stability.opti_mcc.0.0324.subsample.0.03.lefse_summary", header=TRUE, sep="\t")
+LEFSERectum$logMaxMean <- NULL
+RelativeAbundance = read.table("D:/HAUPT4_Updated/Rectum/Results/Relative Abundance Rectum4.txt", header=TRUE, sep="\t")
+RelativeAbundance = RelativeAbundance <- select(RelativeAbundance, Genus, CONTROL, GOS,TOTAL)
+RelativeAbundance <- RelativeAbundance[RelativeAbundance$TOTAL > 0.01, ]
+nrow <- nrow(RelativeAbundance)
+LEFSERectum <- LEFSERectum %>% slice(1:nrow)
+LEFSERectum <-cbind(LEFSERectum, RelativeAbundance)
+LEFSERectum <- na.omit(LEFSERectum)
+LEFSERectum$Class = ifelse(LEFSERectum$CONTROL < LEFSERectum$GOS,"GOS","CONTROL")
+LEFSERectum$pValue <- round(LEFSERectum$pValue, digits = 3)
+LEFSERectum$significance <- ifelse(LEFSERectum$pValue < "0.001", "****",
+                      		ifelse(LEFSERectum$pValue < "0.01", "***",
+                      		ifelse(LEFSERectum$pValue < "0.025", "**",
+                      		ifelse(LEFSERectum$pValue <= "0.05", "*"))))
+LEFSERectum$Names = paste(LEFSERectum$OTU, LEFSERectum$Genus, LEFSERectum$significance)
+LEFSERectum <- LEFSERectum %>% slice(1:10)
+LEFSERectum$Names [6] <- "Otu031 Clostridium XIVa *"
+LEFSERectum$Names [8] <- "Otu033 Erysipelotrichaceae UC **"
+LEFSERectum <- arrange(LEFSERectum, desc(LDA))
+LEFSERectum <- arrange(LEFSERectum, desc(Class))
+
+LEFSETrial4 <- rbind(LEFSEDuodenum, LEFSEJejunum, LEFSEIleum, LEFSECaecum, LEFSEColon, LEFSERectum)
+LEFSETrial4Graph <- select(LEFSETrial4, Names, LDA, Class)
+my_palette3 <- c("#7570B3", "#E7298A")
+
+par(mar = c(4, 16, 4, 0.5))
+barplot(LEFSETrial4Graph$LDA,
+         horiz = TRUE,
+         col = my_palette3[as.factor(LEFSETrial4Graph$Class)],
+         xlim = c(0, 5),
+         xlab ="LDA Score log 10",
+         font.lab = 2,
+         font = 2,
+         names.arg = LEFSETrial4Graph$Names,
+	 las = 1,
+         cex.names = 0.8,
+         cex.lab = 1.0)
+abline(h=0.1, lwd = 2)
+abline(h=12.1, lwd = 2)
+abline(h=24.1, lwd = 2)
+abline(h=36, lwd = 2)
+abline(h=48.1, lwd = 2)
+abline(h=60.1, lwd = 2)
+abline(h=71.95, lwd = 2)
+legend(x = 0, y = 75.25, c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1.2, h = TRUE, pch = 15, text.font = 2, col = c("#7570B3", "#E7298A"))
+mtext("Trial 4", side=3, adj=-0.25, line=0, cex=1.2, font=2, font.lab = 2)
+text(x = 4.7, y = 7.4, label ="Duodenum", cex = 1, font = 2)
+text(x = 4.7, y = 22, label ="Jejunum", cex = 1, font = 2)
+text(x = 4.7, y = 34, label ="Ileum", cex = 1, font = 2)
+text(x = 4.7, y = 45.7, label ="Caecum", cex = 1, font = 2)
+text(x = 4.7, y = 57.4, label ="Colon", cex = 1, font = 2)
+text(x = 4.7, y = 69.3, label ="Rectum", cex = 1, font = 2)
+text(3, 73, label = substitute(paste(italic("*P"), " = 0.05")), font = 2, col = "black")
+text(3.75, 73, label = substitute(paste(italic("**P"), " = 0.025")), font = 2, col = "black")
+text(4.5, 73, label = substitute(paste(italic("***P"), " = 0.01")), font = 2, col = "black")
+dev.off()
