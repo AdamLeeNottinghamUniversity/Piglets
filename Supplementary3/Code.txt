@@ -1,0 +1,1435 @@
+#SUPPLEMENTARY FIGURE 3A
+
+tiff("D:/RFigure/Trial1BetaDiversity1.tiff", pointsize=12, width=7200, height=3800, res=400)
+par(mfrow = c(3,6))
+par(mar = c(6,6,3,2))
+
+ThetaYCHAUPT1Duodenum = read.table("D:/HAUPT1_Updated/Duodenum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa1.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT1Duodenum = ThetaYCHAUPT1Duodenum[,-which(names(ThetaYCHAUPT1Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+ThetaYCHAUPT1Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT1Duodenum <- ThetaYCHAUPT1Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT1Duodenum$axis1, ThetaYCHAUPT1Duodenum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT1Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (81.49 %)",
+      ylab = "PC2  (6.98 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.246")), font = 2, col = "black"))
+legend("topleft", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, pch = 19, col = my_palette3)
+mtext("Duodenum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+mtext("Yue & Clayton Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+ThetaYCHAUPT1Jejunum = read.table("D:/HAUPT1_Updated/Jejunum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa2.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT1Jejunum = ThetaYCHAUPT1Jejunum[,-which(names(ThetaYCHAUPT1Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+ThetaYCHAUPT1Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT1Jejunum <- ThetaYCHAUPT1Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT1Jejunum$axis1, ThetaYCHAUPT1Jejunum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT1Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (68.64 %)",
+      ylab = "PC2  (12.42 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.293")), font = 2, col = "black"))
+mtext("Jejunum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT1Ileum = read.table("D:/HAUPT1_Updated/Ileum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa3.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT1Ileum = ThetaYCHAUPT1Ileum[,-which(names(ThetaYCHAUPT1Ileum) %in% c("axis3", "axis4", "axis5", "axis6"))]
+ThetaYCHAUPT1Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT1Ileum <- ThetaYCHAUPT1Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT1Ileum$axis1, ThetaYCHAUPT1Ileum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT1Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (68.86 %)",
+      ylab = "PC2  (21.54 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.373")), font = 2, col = "black"))
+mtext("Ileum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT1Caecum = read.table("D:/HAUPT1_Updated/Caecum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa4.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT1Caecum = ThetaYCHAUPT1Caecum[,-which(names(ThetaYCHAUPT1Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT1Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT1Caecum <- ThetaYCHAUPT1Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT1Caecum$axis1, ThetaYCHAUPT1Caecum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT1Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (52.06 %)",
+      ylab = "PC2  (20.53 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.517")), font = 2, col = "black"))
+mtext("Caecum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT1Colon = read.table("D:/HAUPT1_Updated/Colon/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa5.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT1Colon = ThetaYCHAUPT1Colon[,-which(names(ThetaYCHAUPT1Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT1Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT1Colon <- ThetaYCHAUPT1Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT1Colon$axis1, ThetaYCHAUPT1Colon$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT1Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.7, 0.7),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (39.91 %)",
+      ylab = "PC2  (37.58 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.173")), font = 2, col = "black"))
+mtext("Colon", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT1Rectum = read.table("D:/HAUPT1_Updated/Rectum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa6.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT1Rectum = ThetaYCHAUPT1Rectum[,-which(names(ThetaYCHAUPT1Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+ThetaYCHAUPT1Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT1Rectum <- ThetaYCHAUPT1Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT1Rectum$axis1, ThetaYCHAUPT1Rectum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT1Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (46.46 %)",
+      ylab = "PC2  (35.18 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.031")), font = 2, col = "black"))
+mtext("Rectum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+BrayCurtisHAUPT1Duodenum = read.table("D:/HAUPT1_Updated/Duodenum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa1.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT1Duodenum = BrayCurtisHAUPT1Duodenum[,-which(names(BrayCurtisHAUPT1Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+BrayCurtisHAUPT1Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT1Duodenum <- BrayCurtisHAUPT1Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT1Duodenum$axis1, BrayCurtisHAUPT1Duodenum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT1Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (69.39 %)",
+      ylab = "PC2  (12.62 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.186")), font = 2, col = "black"))
+mtext("Bray-Curtis Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+BrayCurtisHAUPT1Jejunum = read.table("D:/HAUPT1_Updated/Jejunum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa2.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT1Jejunum = BrayCurtisHAUPT1Jejunum[,-which(names(BrayCurtisHAUPT1Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+BrayCurtisHAUPT1Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT1Jejunum <- BrayCurtisHAUPT1Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT1Jejunum$axis1, BrayCurtisHAUPT1Jejunum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT1Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (56.80 %)",
+      ylab = "PC2  (20.39 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.217")), font = 2, col = "black"))
+
+BrayCurtisHAUPT1Ileum = read.table("D:/HAUPT1_Updated/Ileum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa3.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT1Ileum = BrayCurtisHAUPT1Ileum[,-which(names(BrayCurtisHAUPT1Ileum) %in% c("axis3", "axis4", "axis5", "axis6"))]
+BrayCurtisHAUPT1Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT1Ileum <- BrayCurtisHAUPT1Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT1Ileum$axis1, BrayCurtisHAUPT1Ileum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT1Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (63.16 %)",
+      ylab = "PC2  (16.90 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.173")), font = 2, col = "black"))
+
+BrayCurtisHAUPT1Caecum = read.table("D:/HAUPT1_Updated/Caecum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa4.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT1Caecum = BrayCurtisHAUPT1Caecum[,-which(names(BrayCurtisHAUPT1Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT1Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT1Caecum <- BrayCurtisHAUPT1Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT1Caecum$axis1, BrayCurtisHAUPT1Caecum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT1Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (36.88 %)",
+      ylab = "PC2  (24.11 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.427")), font = 2, col = "black"))
+
+BrayCurtisHAUPT1Colon = read.table("D:/HAUPT1_Updated/Colon/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa5.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT1Colon = BrayCurtisHAUPT1Colon[,-which(names(BrayCurtisHAUPT1Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT1Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT1Colon <- BrayCurtisHAUPT1Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT1Colon$axis1, BrayCurtisHAUPT1Colon$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT1Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (38.15 %)",
+      ylab = "PC2  (27.50 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.254")), font = 2, col = "black"))
+
+BrayCurtisHAUPT1Rectum = read.table("D:/HAUPT1_Updated/Rectum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa6.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT1Rectum = BrayCurtisHAUPT1Rectum[,-which(names(BrayCurtisHAUPT1Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+BrayCurtisHAUPT1Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT1Rectum <- BrayCurtisHAUPT1Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT1Rectum$axis1, BrayCurtisHAUPT1Rectum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT1Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (39.09 %)",
+      ylab = "PC2  (30.48 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.062")), font = 2, col = "black"))
+
+JaccardHAUPT1Duodenum = read.table("D:/HAUPT1_Updated/Duodenum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa1.axes", header=TRUE, sep="\t")
+JaccardHAUPT1Duodenum = JaccardHAUPT1Duodenum[,-which(names(JaccardHAUPT1Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+JaccardHAUPT1Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT1Duodenum <- JaccardHAUPT1Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT1Duodenum$axis1, JaccardHAUPT1Duodenum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT1Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (26.80 %)",
+      ylab = "PC2  (20.84 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.062")), font = 2, col = "black"))
+mtext("Jaccard Similarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+JaccardHAUPT1Jejunum = read.table("D:/HAUPT1_Updated/Jejunum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa2.axes", header=TRUE, sep="\t")
+JaccardHAUPT1Jejunum = JaccardHAUPT1Jejunum[,-which(names(JaccardHAUPT1Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+JaccardHAUPT1Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT1Jejunum <- JaccardHAUPT1Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT1Jejunum$axis1, JaccardHAUPT1Jejunum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT1Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (26.68 %)",
+      ylab = "PC2  (17.00 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.660")), font = 2, col = "black"))
+
+JaccardHAUPT1Ileum = read.table("D:/HAUPT1_Updated/Ileum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa3.axes", header=TRUE, sep="\t")
+JaccardHAUPT1Ileum = JaccardHAUPT1Ileum[,-which(names(JaccardHAUPT1Ileum) %in% c("axis3", "axis4", "axis5", "axis6"))]
+JaccardHAUPT1Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT1Ileum <- JaccardHAUPT1Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT1Ileum$axis1, JaccardHAUPT1Ileum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT1Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (44.60 %)",
+      ylab = "PC2  (17.11 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.09")), font = 2, col = "black"))
+
+JaccardHAUPT1Caecum = read.table("D:/HAUPT1_Updated/Caecum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa4.axes", header=TRUE, sep="\t")
+JaccardHAUPT1Caecum = JaccardHAUPT1Caecum[,-which(names(JaccardHAUPT1Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT1Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT1Caecum <- JaccardHAUPT1Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT1Caecum$axis1, JaccardHAUPT1Caecum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT1Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (24.68 %)",
+      ylab = "PC2  (18.38 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.106")), font = 2, col = "black"))
+
+JaccardHAUPT1Colon = read.table("D:/HAUPT1_Updated/Colon/stability.opti_mcc.jclass.0.03.lt.ave.pcoa5.axes", header=TRUE, sep="\t")
+JaccardHAUPT1Colon = JaccardHAUPT1Colon[,-which(names(JaccardHAUPT1Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT1Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT1Colon <- JaccardHAUPT1Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT1Colon$axis1, JaccardHAUPT1Colon$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT1Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (24.38 %)",
+      ylab = "PC2  (18.55 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.106")), font = 2, col = "black"))
+
+JaccardHAUPT1Rectum = read.table("D:/HAUPT1_Updated/Rectum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa6.axes", header=TRUE, sep="\t")
+JaccardHAUPT1Rectum = JaccardHAUPT1Rectum[,-which(names(JaccardHAUPT1Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+JaccardHAUPT1Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT1Rectum <- JaccardHAUPT1Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT1Rectum$axis1, JaccardHAUPT1Rectum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT1Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (34.31 %)",
+      ylab = "PC2  (18.86 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.241")), font = 2, col = "black"))
+dev.off()
+
+#SUPPLEMENTARY FIGURE 3B
+
+tiff("F:/RFigure/Trial2BetaDiversity2.tiff", pointsize=12, width=7200, height=3800, res=400)
+par(mfrow = c(3,6))
+par(mar = c(6,6,3,2))
+
+ThetaYCHAUPT2Duodenum = read.table("D:/HAUPT2_Updated/Duodenum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa7.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT2Duodenum = ThetaYCHAUPT2Duodenum[,-which(names(ThetaYCHAUPT2Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT2Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT2Duodenum <- ThetaYCHAUPT2Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT2Duodenum$axis1, ThetaYCHAUPT2Duodenum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT2Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (53.41 %)",
+      ylab = "PC2  (30.46 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.012")), font = 2, col = "black"))
+legend("topleft", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, pch = 19, col = my_palette3)
+mtext("Duodenum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+mtext("Yue & Clayton Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+ThetaYCHAUPT2Jejunum = read.table("D:/HAUPT2_Updated/Jejunum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa8.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT2Jejunum = ThetaYCHAUPT2Jejunum[,-which(names(ThetaYCHAUPT2Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT2Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT2Jejunum <- ThetaYCHAUPT2Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT2Jejunum$axis1, ThetaYCHAUPT2Jejunum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT2Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (41.57 %)",
+      ylab = "PC2  (35.17 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.015")), font = 2, col = "black"))
+mtext("Jejunum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT2Ileum = read.table("D:/HAUPT2_Updated/Ileum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa9.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT2Ileum = ThetaYCHAUPT2Ileum[,-which(names(ThetaYCHAUPT2Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT2Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT2Ileum <- ThetaYCHAUPT2Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT2Ileum$axis1, ThetaYCHAUPT2Ileum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT2Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (50.36 %)",
+      ylab = "PC2  (24.29 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.284")), font = 2, col = "black"))
+mtext("Ileum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT2Caecum = read.table("D:/HAUPT2_Updated/Caecum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa10.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT2Caecum = ThetaYCHAUPT2Caecum[,-which(names(ThetaYCHAUPT2Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT2Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT2Caecum <- ThetaYCHAUPT2Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT2Caecum$axis1, ThetaYCHAUPT2Caecum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT2Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.7, 0.7),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (33.32 %)",
+      ylab = "PC2  (22.68 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.011")), font = 2, col = "black"))
+mtext("Caecum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT2Colon = read.table("D:/HAUPT2_Updated/Colon/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa.axes11", header=TRUE, sep="\t")
+ThetaYCHAUPT2Colon = ThetaYCHAUPT2Colon[,-which(names(ThetaYCHAUPT2Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT2Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT2Colon <- ThetaYCHAUPT2Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT2Colon$axis1, ThetaYCHAUPT2Colon$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT2Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (33.34 %)",
+      ylab = "PC2  (23.34 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.047")), font = 2, col = "black"))
+mtext("Colon", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT2Rectum = read.table("D:/HAUPT2_Updated/Rectum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa.axes12", header=TRUE, sep="\t")
+ThetaYCHAUPT2Rectum = ThetaYCHAUPT2Rectum[,-which(names(ThetaYCHAUPT2Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT2Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT2Rectum <- ThetaYCHAUPT2Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT2Rectum$axis1, ThetaYCHAUPT2Rectum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT2Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (29.92 %)",
+      ylab = "PC2  (25.24 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.313")), font = 2, col = "black"))
+mtext("Rectum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+BrayCurtisHAUPT2Duodenum = read.table("D:/HAUPT2_Updated/Duodenum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa7.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT2Duodenum = BrayCurtisHAUPT2Duodenum[,-which(names(BrayCurtisHAUPT2Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT2Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT2Duodenum <- BrayCurtisHAUPT2Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT2Duodenum$axis1, BrayCurtisHAUPT2Duodenum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT2Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (46.46 %)",
+      ylab = "PC2  (28.58 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.01")), font = 2, col = "black"))
+mtext("Bray-Curtis Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+BrayCurtisHAUPT2Jejunum = read.table("D:/HAUPT2_Updated/Jejunum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa8.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT2Jejunum = BrayCurtisHAUPT2Jejunum[,-which(names(BrayCurtisHAUPT2Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT2Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT2Jejunum <- BrayCurtisHAUPT2Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT2Jejunum$axis1, BrayCurtisHAUPT2Jejunum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT2Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (40.84 %)",
+      ylab = "PC2  (28.95 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.012")), font = 2, col = "black"))
+
+BrayCurtisHAUPT2Ileum = read.table("D:/HAUPT2_Updated/Ileum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa9.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT2Ileum = BrayCurtisHAUPT2Ileum[,-which(names(BrayCurtisHAUPT2Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT2Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT2Ileum <- BrayCurtisHAUPT2Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT2Ileum$axis1, BrayCurtisHAUPT2Ileum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT2Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (47.96 %)",
+      ylab = "PC2  (21.71 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.155")), font = 2, col = "black"))
+
+BrayCurtisHAUPT2Caecum = read.table("D:/HAUPT2_Updated/Caecum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa10.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT2Caecum = BrayCurtisHAUPT2Caecum[,-which(names(BrayCurtisHAUPT2Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT2Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT2Caecum <- BrayCurtisHAUPT2Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT2Caecum$axis1, BrayCurtisHAUPT2Caecum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT2Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (31.41 %)",
+      ylab = "PC2  (23.07 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.006")), font = 2, col = "black"))
+
+BrayCurtisHAUPT2Colon = read.table("D:/HAUPT2_Updated/Colon/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa11.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT2Colon = BrayCurtisHAUPT2Colon[,-which(names(BrayCurtisHAUPT2Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT2Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT2Colon <- BrayCurtisHAUPT2Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT2Colon$axis1, BrayCurtisHAUPT2Colon$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT2Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (32.95 %)",
+      ylab = "PC2  (21.43 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.087")), font = 2, col = "black"))
+
+BrayCurtisHAUPT2Rectum = read.table("D:/HAUPT2_Updated/Rectum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa12.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT2Rectum = BrayCurtisHAUPT2Rectum[,-which(names(BrayCurtisHAUPT2Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT2Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT2Rectum <- BrayCurtisHAUPT2Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT2Rectum$axis1, BrayCurtisHAUPT2Rectum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT2Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (27.11 %)",
+      ylab = "PC2  (24.59 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.197")), font = 2, col = "black"))
+
+JaccardHAUPT2Duodenum = read.table("D:/HAUPT2_Updated/Duodenum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa7.axes", header=TRUE, sep="\t")
+JaccardHAUPT2Duodenum = JaccardHAUPT2Duodenum[,-which(names(JaccardHAUPT2Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT2Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT2Duodenum <- JaccardHAUPT2Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT2Duodenum$axis1, JaccardHAUPT2Duodenum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT2Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (28.99 %)",
+      ylab = "PC2  (16.10 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.031")), font = 2, col = "black"))
+mtext("Jaccard Similarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+JaccardHAUPT2Jejunum = read.table("D:/HAUPT2_Updated/Jejunum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa8.axes", header=TRUE, sep="\t")
+JaccardHAUPT2Jejunum = JaccardHAUPT2Jejunum[,-which(names(JaccardHAUPT2Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT2Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT2Jejunum <- JaccardHAUPT2Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT2Jejunum$axis1, JaccardHAUPT2Jejunum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT2Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (29.39 %)",
+      ylab = "PC2  (13.13 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.025")), font = 2, col = "black"))
+
+JaccardHAUPT2Ileum = read.table("D:/HAUPT2_Updated/Ileum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa9.axes", header=TRUE, sep="\t")
+JaccardHAUPT2Ileum = JaccardHAUPT2Ileum[,-which(names(JaccardHAUPT2Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT2Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT2Ileum <- JaccardHAUPT2Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT2Ileum$axis1, JaccardHAUPT2Ileum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT2Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (29.35 %)",
+      ylab = "PC2  (17.42 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.126")), font = 2, col = "black"))
+
+JaccardHAUPT2Caecum = read.table("D:/HAUPT2_Updated/Caecum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa10.axes", header=TRUE, sep="\t")
+JaccardHAUPT2Caecum = JaccardHAUPT2Caecum[,-which(names(JaccardHAUPT2Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT2Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT2Caecum <- JaccardHAUPT2Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT2Caecum$axis1, JaccardHAUPT2Caecum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT2Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (20.79 %)",
+      ylab = "PC2  (20.37 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.016")), font = 2, col = "black"))
+
+JaccardHAUPT2Colon = read.table("D:/HAUPT2_Updated/Colon/stability.opti_mcc.jclass.0.03.lt.ave.pcoa11.axes", header=TRUE, sep="\t")
+JaccardHAUPT2Colon = JaccardHAUPT2Colon[,-which(names(JaccardHAUPT2Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT2Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT2Colon <- JaccardHAUPT2Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT2Colon$axis1, JaccardHAUPT2Colon$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT2Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (23.36 %)",
+      ylab = "PC2  (15.22 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.140")), font = 2, col = "black"))
+
+JaccardHAUPT2Rectum = read.table("D:/HAUPT2_Updated/Rectum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa12.axes", header=TRUE, sep="\t")
+JaccardHAUPT2Rectum = JaccardHAUPT2Rectum[,-which(names(JaccardHAUPT2Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT2Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT2Rectum <- JaccardHAUPT2Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT2Rectum$axis1, JaccardHAUPT2Rectum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT2Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (19.71 %)",
+      ylab = "PC2  (17.25 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.006")), font = 2, col = "black"))
+dev.off()
+
+#SUPPLEMENTARY FIGURE 3C
+
+tiff("F:/RFigure/Trial3BetaDiversity2.tiff", pointsize=12, width=7200, height=3800, res=400)
+par(mfrow = c(3,6))
+par(mar = c(6,6,3,2))
+
+ThetaYCHAUPT3Duodenum = read.table("D:/HAUPT3_Updated/Duodenum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa13.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT3Duodenum = ThetaYCHAUPT3Duodenum[,-which(names(ThetaYCHAUPT3Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+ThetaYCHAUPT3Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT3Duodenum <- ThetaYCHAUPT3Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT3Duodenum$axis1, ThetaYCHAUPT3Duodenum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT3Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (75.39 %)",
+      ylab = "PC2  (13.87 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = 0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.486")), font = 2, col = "black"))
+legend("topleft", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, pch = 19, col = my_palette3)
+mtext("Duodenum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+mtext("Yue & Clayton Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+ThetaYCHAUPT3Jejunum = read.table("D:/HAUPT3_Updated/Jejunum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa14.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT3Jejunum = ThetaYCHAUPT3Jejunum[,-which(names(ThetaYCHAUPT3Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT3Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT3Jejunum <- ThetaYCHAUPT3Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT3Jejunum$axis1, ThetaYCHAUPT3Jejunum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT3Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (71.99 %)",
+      ylab = "PC2  (8.86 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.513")), font = 2, col = "black"))
+mtext("Jejunum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT3Ileum = read.table("D:/HAUPT3_Updated/Ileum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa15.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT3Ileum = ThetaYCHAUPT3Ileum[,-which(names(ThetaYCHAUPT3Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+ThetaYCHAUPT3Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT3Ileum <- ThetaYCHAUPT3Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT3Ileum$axis1, ThetaYCHAUPT3Ileum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT3Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (51.30 %)",
+      ylab = "PC2  (20.99 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.085")), font = 2, col = "black"))
+mtext("Ileum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT3Caecum = read.table("D:/HAUPT3_Updated/Caecum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa16.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT3Caecum = ThetaYCHAUPT3Caecum[,-which(names(ThetaYCHAUPT3Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT3Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT3Caecum <- ThetaYCHAUPT3Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT3Caecum$axis1, ThetaYCHAUPT3Caecum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT3Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (33.15 %)",
+      ylab = "PC2  (21.89 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.494")), font = 2, col = "black"))
+mtext("Caecum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT3Colon = read.table("D:/HAUPT3_Updated/Colon/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa17.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT3Colon = ThetaYCHAUPT3Colon[,-which(names(ThetaYCHAUPT3Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT3Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT3Colon <- ThetaYCHAUPT3Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT3Colon$axis1, ThetaYCHAUPT3Colon$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT3Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (28.51 %)",
+      ylab = "PC2  (24.34 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.392")), font = 2, col = "black"))
+mtext("Colon", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT3Rectum = read.table("D:/HAUPT3_Updated/Rectum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa18.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT3Rectum = ThetaYCHAUPT3Rectum[,-which(names(ThetaYCHAUPT3Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT3Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT3Rectum <- ThetaYCHAUPT3Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT3Rectum$axis1, ThetaYCHAUPT3Rectum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT3Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (37.80 %)",
+      ylab = "PC2  (27.26 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.3, y = 0.4, label = substitute(paste(italic("P"), " = 0.034")), font = 2, col = "black"))
+mtext("Rectum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+BrayCurtisHAUPT3Duodenum = read.table("D:/HAUPT3_Updated/Duodenum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa13.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT3Duodenum = BrayCurtisHAUPT3Duodenum[,-which(names(BrayCurtisHAUPT3Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+BrayCurtisHAUPT3Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT3Duodenum <- BrayCurtisHAUPT3Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT3Duodenum$axis1, BrayCurtisHAUPT3Duodenum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT3Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (61.4 %)",
+      ylab = "PC2  (16.67 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.456")), font = 2, col = "black"))
+mtext("Bray-Curtis Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+BrayCurtisHAUPT3Jejunum = read.table("D:/HAUPT3_Updated/Jejunum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa14.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT3Jejunum = BrayCurtisHAUPT3Jejunum[,-which(names(BrayCurtisHAUPT3Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT3Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT3Jejunum <- BrayCurtisHAUPT3Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT3Jejunum$axis1, BrayCurtisHAUPT3Jejunum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT3Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (56.47 %)",
+      ylab = "PC2  (17.45 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.327")), font = 2, col = "black"))
+
+BrayCurtisHAUPT3Ileum = read.table("D:/HAUPT3_Updated/Ileum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa15.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT3Ileum = BrayCurtisHAUPT3Ileum[,-which(names(BrayCurtisHAUPT3Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+BrayCurtisHAUPT3Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT3Ileum <- BrayCurtisHAUPT3Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT3Ileum$axis1, BrayCurtisHAUPT3Ileum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT3Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (39.91 %)",
+      ylab = "PC2  (25.57 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.069")), font = 2, col = "black"))
+
+BrayCurtisHAUPT3Caecum = read.table("D:/HAUPT3_Updated/Caecum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa16.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT3Caecum = BrayCurtisHAUPT3Caecum[,-which(names(BrayCurtisHAUPT3Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT3Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT3Caecum <- BrayCurtisHAUPT3Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT3Caecum$axis1, BrayCurtisHAUPT3Caecum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT3Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (31.74 %)",
+      ylab = "PC2  (19.64 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.131")), font = 2, col = "black"))
+
+BrayCurtisHAUPT3Colon = read.table("D:/HAUPT3_Updated/Colon/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa17.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT3Colon = BrayCurtisHAUPT3Colon[,-which(names(BrayCurtisHAUPT3Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT3Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT3Colon <- BrayCurtisHAUPT3Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT3Colon$axis1, BrayCurtisHAUPT3Colon$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT3Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (25.93 %)",
+      ylab = "PC2  (22.57 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.241")), font = 2, col = "black"))
+
+BrayCurtisHAUPT3Rectum = read.table("D:/HAUPT3_Updated/Rectum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa18.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT3Rectum = BrayCurtisHAUPT3Rectum[,-which(names(BrayCurtisHAUPT3Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT3Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT3Rectum <- BrayCurtisHAUPT3Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT3Rectum$axis1, BrayCurtisHAUPT3Rectum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT3Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (35.45 %)",
+      ylab = "PC2  (21.45 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.034")), font = 2, col = "black"))
+
+JaccardHAUPT3Duodenum = read.table("D:/HAUPT3_Updated/Duodenum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa13.axes", header=TRUE, sep="\t")
+JaccardHAUPT3Duodenum = JaccardHAUPT3Duodenum[,-which(names(JaccardHAUPT3Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+JaccardHAUPT3Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT3Duodenum <- JaccardHAUPT3Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT3Duodenum$axis1, JaccardHAUPT3Duodenum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT3Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (30.49 %)",
+      ylab = "PC2  (17.90 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.456")), font = 2, col = "black"))
+mtext("Jaccard Similarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+JaccardHAUPT3Jejunum = read.table("D:/HAUPT3_Updated/Jejunum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa14.axes", header=TRUE, sep="\t")
+JaccardHAUPT3Jejunum = JaccardHAUPT3Jejunum[,-which(names(JaccardHAUPT3Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT3Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT3Jejunum <- JaccardHAUPT3Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT3Jejunum$axis1, JaccardHAUPT3Jejunum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT3Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (21.50 %)",
+      ylab = "PC2  (18.97 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.017")), font = 2, col = "black"))
+
+JaccardHAUPT3Ileum = read.table("D:/HAUPT3_Updated/Ileum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa15.axes", header=TRUE, sep="\t")
+JaccardHAUPT3Ileum = JaccardHAUPT3Ileum[,-which(names(JaccardHAUPT3Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7"))]
+JaccardHAUPT3Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT3Ileum <- JaccardHAUPT3Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT3Ileum$axis1, JaccardHAUPT3Ileum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT3Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (30.15 %)",
+      ylab = "PC2  (22.70 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.145")), font = 2, col = "black"))
+
+JaccardHAUPT3Caecum = read.table("D:/HAUPT3_Updated/Caecum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa16.axes", header=TRUE, sep="\t")
+JaccardHAUPT3Caecum = JaccardHAUPT3Caecum[,-which(names(JaccardHAUPT3Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT3Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT3Caecum <- JaccardHAUPT3Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT3Caecum$axis1, JaccardHAUPT3Caecum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT3Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (25.59 %)",
+      ylab = "PC2  (15.55 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.034")), font = 2, col = "black"))
+
+JaccardHAUPT3Colon = read.table("D:/HAUPT3_Updated/Colon/stability.opti_mcc.jclass.0.03.lt.ave.pcoa17.axes", header=TRUE, sep="\t")
+JaccardHAUPT3Colon = JaccardHAUPT3Colon[,-which(names(JaccardHAUPT3Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT3Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT3Colon <- JaccardHAUPT3Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT3Colon$axis1, JaccardHAUPT3Colon$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT3Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (17.89 %)",
+      ylab = "PC2  (16.50 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.34")), font = 2, col = "black"))
+
+JaccardHAUPT3Rectum = read.table("D:/HAUPT3_Updated/Rectum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa18.axes", header=TRUE, sep="\t")
+JaccardHAUPT3Rectum = JaccardHAUPT3Rectum[,-which(names(JaccardHAUPT3Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT3Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT3Rectum <- JaccardHAUPT3Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT3Rectum$axis1, JaccardHAUPT3Rectum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT3Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (21.34 %)",
+      ylab = "PC2  (17.78 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.034")), font = 2, col = "black"))
+dev.off()
+
+#SUPPLEMENTARY FIGURE 3D
+
+tiff("D:/RFigure/Trial4BetaDiversity2.tiff", pointsize=12, width=7200, height=3800, res=400)
+par(mfrow = c(3,6))
+par(mar = c(6,6,3,2))
+
+ThetaYCHAUPT4Duodenum = read.table("D:/HAUPT4_Updated/Duodenum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa19.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Duodenum = ThetaYCHAUPT4Duodenum[,-which(names(ThetaYCHAUPT4Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT4Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Duodenum <- ThetaYCHAUPT4Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Duodenum$axis1, ThetaYCHAUPT4Duodenum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (36.92 %)",
+      ylab = "PC2  (30.74 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.062")), font = 2, col = "black"))
+legend("topright", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, pch = 19, col = my_palette3)
+mtext("Duodenum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+mtext("Yue & Clayton Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+ThetaYCHAUPT4Jejunum = read.table("D:/HAUPT4_Updated/Jejunum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa20.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Jejunum = ThetaYCHAUPT4Jejunum[,-which(names(ThetaYCHAUPT4Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT4Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Jejunum <- ThetaYCHAUPT4Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Jejunum$axis1, ThetaYCHAUPT4Jejunum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (49.13 %)",
+      ylab = "PC2  (20.66 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.209")), font = 2, col = "black"))
+mtext("Jejunum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT4Ileum = read.table("D:/HAUPT4_Updated/Ileum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa21.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Ileum = ThetaYCHAUPT4Ileum[,-which(names(ThetaYCHAUPT4Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+ThetaYCHAUPT4Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Ileum <- ThetaYCHAUPT4Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Ileum$axis1, ThetaYCHAUPT4Ileum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (36.67%)",
+      ylab = "PC2  (24.82 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.185")), font = 2, col = "black"))
+mtext("Ileum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT4Caecum = read.table("D:/HAUPT4_Updated/Caecum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa22.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Caecum = ThetaYCHAUPT4Caecum[,-which(names(ThetaYCHAUPT4Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9", "axis10"))]
+ThetaYCHAUPT4Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Caecum <- ThetaYCHAUPT4Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Caecum$axis1, ThetaYCHAUPT4Caecum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (45.47 %)",
+      ylab = "PC2  (16.80 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.005")), font = 2, col = "black"))
+mtext("Caecum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT4Colon = read.table("D:/HAUPT4_Updated/Colon/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa23.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Colon = ThetaYCHAUPT4Colon[,-which(names(ThetaYCHAUPT4Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9", "axis10"))]
+ThetaYCHAUPT4Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Colon <- ThetaYCHAUPT4Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Colon$axis1, ThetaYCHAUPT4Colon$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (40.99 %)",
+      ylab = "PC2  (20.72 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.05")), font = 2, col = "black"))
+mtext("Colon", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+ThetaYCHAUPT4Rectum = read.table("D:/HAUPT4_Updated/Rectum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa24.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Rectum = ThetaYCHAUPT4Rectum[,-which(names(ThetaYCHAUPT4Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+ThetaYCHAUPT4Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Rectum <- ThetaYCHAUPT4Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Rectum$axis1, ThetaYCHAUPT4Rectum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (37.98 %)",
+      ylab = "PC2  (20.43 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.121")), font = 2, col = "black"))
+mtext("Rectum", side=3, adj=0, line=0.6, cex=0.8, font=2)
+
+BrayCurtisHAUPT4Duodenum = read.table("D:/HAUPT4_Updated/Duodenum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa19.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT4Duodenum = BrayCurtisHAUPT4Duodenum[,-which(names(BrayCurtisHAUPT4Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT4Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT4Duodenum <- BrayCurtisHAUPT4Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT4Duodenum$axis1, BrayCurtisHAUPT4Duodenum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT4Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (41.34 %)",
+      ylab = "PC2  (22.71 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.001")), font = 2, col = "black"))
+mtext("Bray-Curtis Dissimilarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+BrayCurtisHAUPT4Jejunum = read.table("D:/HAUPT4_Updated/Jejunum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa20.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT4Jejunum = BrayCurtisHAUPT4Jejunum[,-which(names(BrayCurtisHAUPT4Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT4Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT4Jejunum <- BrayCurtisHAUPT4Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT4Jejunum$axis1, BrayCurtisHAUPT4Jejunum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT4Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (48.95 %)",
+      ylab = "PC2  (18.76 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.252")), font = 2, col = "black"))
+
+BrayCurtisHAUPT4Ileum = read.table("D:/HAUPT4_Updated/Ileum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa21.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT4Ileum = BrayCurtisHAUPT4Ileum[,-which(names(BrayCurtisHAUPT4Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+BrayCurtisHAUPT4Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT4Ileum <- BrayCurtisHAUPT4Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT4Ileum$axis1, BrayCurtisHAUPT4Ileum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT4Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (31.88 %)",
+      ylab = "PC2  (23.94 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.257")), font = 2, col = "black"))
+
+ThetaYCHAUPT4Caecum = read.table("D:/HAUPT4_Updated/Caecum/stability.opti_mcc.thetayc.0.03.lt.ave.pcoa22.axes", header=TRUE, sep="\t")
+ThetaYCHAUPT4Caecum = ThetaYCHAUPT4Caecum[,-which(names(ThetaYCHAUPT4Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9", "axis10"))]
+ThetaYCHAUPT4Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+ThetaYCHAUPT4Caecum <- ThetaYCHAUPT4Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(ThetaYCHAUPT4Caecum$axis1, ThetaYCHAUPT4Caecum$axis2,
+      col = my_palette3[as.factor(ThetaYCHAUPT4Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (40.57 %)",
+      ylab = "PC2  (15.94 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.004")), font = 2, col = "black"))
+
+BrayCurtisHAUPT4Colon = read.table("D:/HAUPT4_Updated/Colon/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa23.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT4Colon = BrayCurtisHAUPT4Colon[,-which(names(BrayCurtisHAUPT4Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9", "axis10"))]
+BrayCurtisHAUPT4Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT4Colon <- BrayCurtisHAUPT4Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT4Colon$axis1, BrayCurtisHAUPT4Colon$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT4Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (35.20 %)",
+      ylab = "PC2  (21.50 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.01")), font = 2, col = "black"))
+
+BrayCurtisHAUPT4Rectum = read.table("D:/HAUPT4_Updated/Rectum/stability.opti_mcc.braycurtis.0.03.lt.ave.pcoa24.axes", header=TRUE, sep="\t")
+BrayCurtisHAUPT4Rectum = BrayCurtisHAUPT4Rectum[,-which(names(BrayCurtisHAUPT4Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+BrayCurtisHAUPT4Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+BrayCurtisHAUPT4Rectum <- BrayCurtisHAUPT4Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(BrayCurtisHAUPT4Rectum$axis1, BrayCurtisHAUPT4Rectum$axis2,
+      col = my_palette3[as.factor(BrayCurtisHAUPT4Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (35.43 %)",
+      ylab = "PC2  (18.91 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.061")), font = 2, col = "black"))
+
+JaccardHAUPT4Duodenum = read.table("D:/HAUPT4_Updated/Duodenum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa19.axes", header=TRUE, sep="\t")
+JaccardHAUPT4Duodenum = JaccardHAUPT4Duodenum[,-which(names(JaccardHAUPT4Duodenum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT4Duodenum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS")
+JaccardHAUPT4Duodenum <- JaccardHAUPT4Duodenum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT4Duodenum$axis1, JaccardHAUPT4Duodenum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT4Duodenum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (21.90 %)",
+      ylab = "PC2  (18.36 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.018")), font = 2, col = "black"))
+mtext("Jaccard Similarity", side=3, adj=0, line=1.7, cex=0.8, font=2)
+
+JaccardHAUPT4Jejunum = read.table("D:/HAUPT4_Updated/Jejunum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa20.axes", header=TRUE, sep="\t")
+JaccardHAUPT4Jejunum = JaccardHAUPT4Jejunum[,-which(names(JaccardHAUPT4Jejunum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT4Jejunum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT4Jejunum <- JaccardHAUPT4Jejunum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT4Jejunum$axis1, JaccardHAUPT4Jejunum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT4Jejunum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (22.02 %)",
+      ylab = "PC2  (14.42 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.006")), font = 2, col = "black"))
+
+JaccardHAUPT4Ileum = read.table("D:/HAUPT4_Updated/Ileum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa21.axes", header=TRUE, sep="\t")
+JaccardHAUPT4Ileum = JaccardHAUPT4Ileum[,-which(names(JaccardHAUPT4Ileum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8"))]
+JaccardHAUPT4Ileum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT4Ileum <- JaccardHAUPT4Ileum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT4Ileum$axis1, JaccardHAUPT4Ileum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT4Ileum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (26.55 %)",
+      ylab = "PC2  (15.96 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.173")), font = 2, col = "black"))
+
+JaccardHAUPT4Caecum = read.table("D:/HAUPT4_Updated/Caecum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa22.axes", header=TRUE, sep="\t")
+JaccardHAUPT4Caecum = JaccardHAUPT4Caecum[,-which(names(JaccardHAUPT4Caecum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9", "axis10"))]
+JaccardHAUPT4Caecum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT4Caecum <- JaccardHAUPT4Caecum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT4Caecum$axis1, JaccardHAUPT4Caecum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT4Caecum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (28.24 %)",
+      ylab = "PC2  (14.25 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.005")), font = 2, col = "black"))
+
+JaccardHAUPT4Colon = read.table("D:/HAUPT4_Updated/Colon/stability.opti_mcc.jclass.0.03.lt.ave.pcoa23.axes", header=TRUE, sep="\t")
+JaccardHAUPT4Colon = JaccardHAUPT4Colon[,-which(names(JaccardHAUPT4Colon) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9", "axis10"))]
+JaccardHAUPT4Colon$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT4Colon <- JaccardHAUPT4Colon[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT4Colon$axis1, JaccardHAUPT4Colon$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT4Colon$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (25.41 %)",
+      ylab = "PC2  (16.69 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.005")), font = 2, col = "black"))
+
+JaccardHAUPT4Rectum = read.table("D:/HAUPT4_Updated/Rectum/stability.opti_mcc.jclass.0.03.lt.ave.pcoa24.axes", header=TRUE, sep="\t")
+JaccardHAUPT4Rectum = JaccardHAUPT4Rectum[,-which(names(JaccardHAUPT4Rectum) %in% c("axis3", "axis4", "axis5", "axis6", "axis7", "axis8", "axis9"))]
+JaccardHAUPT4Rectum$Group <-  c("CONTROL", "CONTROL", "CONTROL", "CONTROL", "CONTROL", "GOS", "GOS", "GOS", "GOS")
+JaccardHAUPT4Rectum <- JaccardHAUPT4Rectum[ -c(1)]
+my_palette3 <- c("#7570B3", "#E7298A")
+plot(JaccardHAUPT4Rectum$axis1, JaccardHAUPT4Rectum$axis2,
+      col = my_palette3[as.factor(JaccardHAUPT4Rectum$Group)],
+      xlim = c(-0.6, 0.6),
+      ylim = c(-0.6, 0.6),
+      cex = 3,
+      cex.lab = 1,
+      cex.axis = 1,
+      pch = 20,
+      xlab = "PC1 (28.69 %)",
+      ylab = "PC2  (18.48 %)",
+      font.lab = 2,
+      font = 2,
+      text(x = -0.4, y = 0.4, label = substitute(paste(italic("P"), " = 0.012")), font = 2, col = "black"))
+dev.off()
