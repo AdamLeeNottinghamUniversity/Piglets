@@ -1,0 +1,29 @@
+#SUPPLEMENTARY FIGURE 1
+
+WeightCorr = read.table("D:/WeightCorr.txt", header=TRUE, sep="\t")
+View(WeightCorr)
+tiff('D:/Supplementary1.tiff', pointsize=10, width=2600, height=2400, res=600)
+plot(WeightCorr$X24h_BWC, WeightCorr$P4._WeightC,
+      pch = 20,
+      cex = 1,
+      cex.axis = 1,
+      font.lab = 2,
+      font = 2,
+      col = "#7570B3",
+      xlab = "Weight at 24h post partum Kg",
+      ylab = "Final Weight Kg",
+      xlim = c(0.5, 1.8),
+      ylim = c(1, 6.5))
+      points(WeightCorr$X24h_BWG, WeightCorr$P4._WeightG,
+      pch = 20,
+      cex = 1,
+      col = "#E7298A")
+abline(lm(WeightCorr$P4._WeightC ~ WeightCorr$X24h_BWC), col = "#7570B3", lwd = 2)
+abline(lm(WeightCorr$P4._WeightG ~ WeightCorr$X24h_BWG), col = "#E7298A", lwd = 2)
+legend("topleft", c("Non-GOS Piglets", "GOS Piglets"), bty = "n", cex = 1, pch = 19, text.font = 2, col = c("#7570B3","#E7298A"))
+text(x = 1.6, y = 2.6, label = substitute(paste(italic("P"), " = < 0.001")), font = 2, cex = 0.8, col = "#7570B3")
+text(x = 1.6, y = 2.3, label = substitute(paste(italic("R"^2), " = 0.50")), font = 2, cex = 0.8, col = "#7570B3")
+text(x = 1.6, y = 1.7, label = substitute(paste(italic("P"), " = < 0.001")), font = 2, cex = 0.8, col = "#E7298A")
+text(x = 1.6, y = 1.4, label = substitute(paste(italic("R"^2), " = 0.48")), font = 2, cex = 0.8, col = "#E7298A")
+mtext("Piglet weight at 24h correlates with final end of study weight", side=3, adj=0.5, line=0.8, cex=1.0, font=2, font.lab = 2)
+dev.off()

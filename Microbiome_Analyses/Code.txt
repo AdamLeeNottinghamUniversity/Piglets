@@ -1,0 +1,1645 @@
+#MICROBIOME ANALYSES
+
+#1 ANALYSES OF EACH GIT SECTION LUMINAL CONTENTS FOR EACH TRIAL.
+
+#TRIAL 1 DUODENUM
+
+set.seed(3711)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(xlsx)
+options(scipen=1000)
+testbiome = read.table("D:/HAUPT1_Updated/Duodenum/stability.opti_mcc1.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT1_Updated/Duodenum/stability.cons1.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Duodenum/Seqs.xlsx", sheetName = "Seqs Duodenum", append = FALSE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+write.table(testbiome, file = "D:/HAUPT1_Updated/Duodenum/Relative Abundance Duodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Duodenum/Relative Abundance Duodenum.xlsx", sheetName = "RA Duodenum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT1_Updated/Duodenum/PhylumDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT1_Updated/Duodenum/PhylumDuodenum.xlsx", sheetName = "PhylumDuodenum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT1_Updated/Duodenum/GenusDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT1_Updated/Duodenum/GenusDuodenum.xlsx", sheetName = "GenusDuodenum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Duodenum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Duodenum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumDuodenum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT1_Updated/Duodenum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT1_Updated/Duodenum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusDuodenum", append = FALSE)
+
+#TRIAL 1 JEJUNUM
+
+testbiome = read.table("D:/HAUPT1_Updated/Jejunum/stability.opti_mcc2.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT1_Updated/Jejunum/stability.cons2.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT1_Updated/Jejunum/Results")
+write.table(testbiome, file = "D:/HAUPT1_Updated/Jejunum/Results/Relative Abundance Jejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Jejunum/Results/Relative Abundance Jejunum.xlsx", sheetName = "RA Jejunum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT1_Updated/Jejunum/Results/PhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT1_Updated/Jejunum/Results/PhylumJejunum.xlsx", sheetName = "PhylumJejunum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT1_Updated/Jejunum/Results/GenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT1_Updated/Jejunum/Results/GenusJejunum.xlsx", sheetName = "GenusJejunum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Jejunum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Jejunum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT1_Updated/Jejunum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT1_Updated/Jejunum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+
+#TRIAL 1 ILEUM
+
+testbiome = read.table("D:/HAUPT1_Updated/Ileum/stability.opti_mcc3.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT1_Updated/Ileum/stability.cons3.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT1_Updated/Ileum/Results")
+write.table(testbiome, file = "D:/HAUPT1_Updated/Ileum/Results/Relative Abundance Ileum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Ileum/Results/Relative Abundance Ileum.xlsx", sheetName = "RA Ileum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT1_Updated/Ileum/Results/PhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT1_Updated/Ileum/Results/PhylumIleum.xlsx", sheetName = "PhylumIleum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT1_Updated/Ileum/Results/GenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT1_Updated/Ileum/Results/GenusIleum.xlsx", sheetName = "GenusIleum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT1_Updated/Ileum/Results/TotalPhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT1_Updated/Ileum/Results/TotalPhylumIleum.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT1_Updated/Ileum/Results/TotalGenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT1_Updated/Ileum/Results/TotalGenusIleum.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Ileum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Ileum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT1_Updated/Ileum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT1_Updated/Ileum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+
+#TRIAL 1 CAECUM
+
+testbiome = read.table("D:/HAUPT1_Updated/Caecum/stability.opti_mcc4.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT1_Updated/Caecum/stability.cons4.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT1_Updated/Caecum/Results")
+write.table(testbiome, file = "D:/HAUPT1_Updated/Caecum/Results/Relative Abundance Caecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Caecum/Results/Relative Abundance Caecum.xlsx", sheetName = "RA Caecum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT1_Updated/Caecum/Results/PhylumCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT1_Updated/Caecum/Results/PhylumCaecum.xlsx", sheetName = "PhylumCaecum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT1_Updated/Caecum/Results/GenusCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT1_Updated/Caecum/Results/GenusCaecum.xlsx", sheetName = "GenusCaecum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Caecum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Caecum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumCaecum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT1_Updated/Caecum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT1_Updated/Caecum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusCaecum", append = FALSE)
+
+#TRIAL 1 COLON
+
+testbiome = read.table("D:/HAUPT1_Updated/Colon/stability.opti_mcc5.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT1_Updated/Colon/stability.cons5.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT1_Updated/Colon/Results")
+write.table(testbiome, file = "D:/HAUPT1_Updated/Colon/Results/Relative Abundance Colon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Colon/Results/Relative Abundance Colon.xlsx", sheetName = "RA Colon", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT1_Updated/Colon/Results/PhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT1_Updated/Colon/Results/PhylumColon.xlsx", sheetName = "PhylumColon", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT1_Updated/Colon/Results/GenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT1_Updated/Colon/Results/GenusColon.xlsx", sheetName = "GenusColon", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT1_Updated/Colon/Results/TotalPhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT1_Updated/Colon/Results/TotalPhylumColon.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT1_Updated/Colon/Results/TotalGenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT1_Updated/Colon/Results/TotalGenusColon.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Colon/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Colon/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT1_Updated/Colon/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT1_Updated/Colon/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+
+TRIAL 1 RECTUM
+
+testbiome = read.table("D:/HAUPT1_Updated/Rectum/stability.opti_mcc6.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT1_Updated/Rectum/stability.cons6.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT1_Updated/Rectum/Results")
+write.table(testbiome, file = "D:/HAUPT1_Updated/Rectum/Results/Relative Abundance Rectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT1_Updated/Rectum/Results/Relative Abundance Rectum.xlsx", sheetName = "RA Rectum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT1_Updated/Rectum/Results/PhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT1_Updated/Rectum/Results/PhylumRectum.xlsx", sheetName = "PhylumRectum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT1_Updated/Rectum/Results/GenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT1_Updated/Rectum/Results/GenusRectum.xlsx", sheetName = "GenusRectum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Rectum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT1_Updated/Rectum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumRectum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT1_Updated/Rectum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT1_Updated/Rectum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusRectum", append = FALSE)
+
+
+#TRIAL 2 DUODENUM
+
+testbiome = read.table("D:/HAUPT2_Updated/Duodenum/stability.opti_mcc7.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(10, 11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT2_Updated/Duodenum/stability.cons7.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 9)
+testbiome <- testbiome[ -c(18)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16,17)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:20], colPerc)
+testbiome[, 9:20] <- sapply(testbiome[, 9:20], colPerc)
+dir.create("D:/HAUPT2_Updated/Duodenum/Results")
+write.table(testbiome, file = "D:/HAUPT2_Updated/Duodenum/Results/Relative Abundance Duodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT2_Updated/Duodenum/Results/Relative Abundance Duodenum.xlsx", sheetName = "RA Duodenum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT2_Updated/Duodenum/Results/PhylumDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT2_Updated/Duodenum/Results/PhylumDuodenum.xlsx", sheetName = "PhylumDuodenum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT2_Updated/Duodenum/Results/GenusDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT2_Updated/Duodenum/Results/GenusDuodenum.xlsx", sheetName = "GenusDuodenum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Duodenum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Duodenum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumDuodenum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Duodenum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Duodenum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusDuodenum", append = FALSE)
+
+#TRIAL 2 JEJUNUM
+
+testbiome = read.table("D:/HAUPT2_Updated/Jejunum/stability.opti_mcc8.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(10, 11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT2_Updated/Jejunum/stability.cons8.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 9)
+testbiome <- testbiome[ -c(18)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16,17)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:20], colPerc)
+testbiome[, 9:20] <- sapply(testbiome[, 9:20], colPerc)
+dir.create("D:/HAUPT2_Updated/Jejunum/Results")
+write.table(testbiome, file = "D:/HAUPT2_Updated/Jejunum/Results/Relative Abundance Jejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT2_Updated/Jejunum/Results/Relative Abundance Jejunum.xlsx", sheetName = "RA Jejunum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT2_Updated/Jejunum/Results/PhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT2_Updated/Jejunum/Results/PhylumJejunum.xlsx", sheetName = "PhylumJejunum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT2_Updated/Jejunum/Results/GenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT2_Updated/Jejunum/Results/GenusJejunum.xlsx", sheetName = "GenusJejunum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalPhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalPhylumJejunum.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalGenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalGenusJejunum.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Jejunum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+
+#TRIAL 2 ILEUM
+
+testbiome = read.table("D:/HAUPT2_Updated/Ileum/stability.opti_mcc9.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(10, 11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT2_Updated/Ileum/stability.cons9.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 9)
+testbiome <- testbiome[ -c(18)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16,17)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:20], colPerc)
+testbiome[, 9:20] <- sapply(testbiome[, 9:20], colPerc)
+dir.create("D:/HAUPT2_Updated/Ileum/Results")
+write.table(testbiome, file = "D:/HAUPT2_Updated/Ileum/Results/Relative Abundance Ileum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT2_Updated/Ileum/Results/Relative Abundance Ileum.xlsx", sheetName = "RA Ileum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT2_Updated/Ileum/Results/PhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT2_Updated/Ileum/Results/PhylumIleum.xlsx", sheetName = "PhylumIleum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT2_Updated/Ileum/Results/GenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT2_Updated/Ileum/Results/GenusIleum.xlsx", sheetName = "GenusIleum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Ileum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Ileum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Ileum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Ileum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+
+
+#TRIAL 2 CAECUM
+
+testbiome = read.table("D:/HAUPT2_Updated/Caecum/stability.opti_mcc10.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(10, 11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT2_Updated/Caecum/stability.cons10.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 9)
+testbiome <- testbiome[ -c(18)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16,17)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:20], colPerc)
+testbiome[, 9:20] <- sapply(testbiome[, 9:20], colPerc)
+dir.create("D:/HAUPT2_Updated/Caecum/Results")
+write.table(testbiome, file = "D:/HAUPT2_Updated/Caecum/Results/Relative Abundance Caecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT2_Updated/Caecum/Results/Relative Abundance Caecum.xlsx", sheetName = "RA Caecum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT2_Updated/Caecum/Results/PhylumCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT2_Updated/Caecum/Results/PhylumCaecum.xlsx", sheetName = "PhylumCaecum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT2_Updated/Caecum/Results/GenusCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT2_Updated/Caecum/Results/GenusCaecum.xlsx", sheetName = "GenusCaecum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Caecum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Caecum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumCaecum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Caecum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Caecum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusCaecum", append = FALSE)
+
+
+#TRIAL 2 COLON
+
+testbiome = read.table("D:/HAUPT2_Updated/Colon/stability.opti_mcc11.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(10, 11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT2_Updated/Colon/stability.cons11.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 9)
+testbiome <- testbiome[ -c(18)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16,17)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:20], colPerc)
+testbiome[, 9:20] <- sapply(testbiome[, 9:20], colPerc)
+dir.create("D:/HAUPT2_Updated/Colon/Results")
+write.table(testbiome, file = "D:/HAUPT2_Updated/Colon/Results/Relative Abundance Colon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT2_Updated/Colon/Results/Relative Abundance Colon.xlsx", sheetName = "RA Colon", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT2_Updated/Colon/Results/PhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT2_Updated/Colon/Results/PhylumColon.xlsx", sheetName = "PhylumColon", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT2_Updated/Colon/Results/GenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT2_Updated/Colon/Results/GenusColon.xlsx", sheetName = "GenusColon", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT2_Updated/Colon/Results/TotalPhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT2_Updated/Colon/Results/TotalPhylumColon.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT2_Updated/Colon/Results/TotalGenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT2_Updated/Colon/Results/TotalGenusColon.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Colon/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Colon/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Colon/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Colon/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+
+
+#TRIAL 2 RECTUM
+
+testbiome = read.table("D:/HAUPT2_Updated/Rectum/stability.opti_mcc12.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(10, 11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT2_Updated/Rectum/stability.cons12.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 9)
+testbiome <- testbiome[ -c(18)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16,17)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:20], colPerc)
+testbiome[, 9:20] <- sapply(testbiome[, 9:20], colPerc)
+dir.create("D:/HAUPT2_Updated/Rectum/Results")
+write.table(testbiome, file = "D:/HAUPT2_Updated/Rectum/Results/Relative Abundance Rectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT2_Updated/Rectum/Results/Relative Abundance Rectum.xlsx", sheetName = "RA Rectum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT2_Updated/Rectum/Results/PhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT2_Updated/Rectum/Results/PhylumRectum.xlsx", sheetName = "PhylumRectum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT2_Updated/Rectum/Results/GenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT2_Updated/Rectum/Results/GenusRectum.xlsx", sheetName = "GenusRectum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT2_Updated/Rectum/Results/TotalPhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT2_Updated/Rectum/Results/TotalPhylumRectum.xlsx", sheetName = "TotalPhylumRectum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT2_Updated/Rectum/Results/TotalGenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT2_Updated/Rectum/Results/TotalGenusRectum.xlsx", sheetName = "TotalGenusRectum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT2_Updated/Rectum/Results/TotalPhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT2_Updated/Rectum/Results/TotalPhylumRectum.xlsx", sheetName = "TotalPhylumRectum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT2_Updated/Rectum/Results/TotalGenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT2_Updated/Rectum/Results/TotalGenusRectum.xlsx", sheetName = "TotalGenusRectum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Rectum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT2_Updated/Rectum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumRectum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT2_Updated/Rectum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT2_Updated/Rectum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusRectum", append = FALSE)
+
+#TRIAL 3 DUODENUM
+
+testbiome = read.table("D:/HAUPT3_Updated/Duodenum/stability.opti_mcc13.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT3_Updated/Duodenum/stability.cons13.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT3_Updated/Duodenum/Results")
+write.table(testbiome, file = "D:/HAUPT3_Updated/Duodenum/Results/Relative Abundance Duodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT3_Updated/Duodenum/Results/Relative Abundance Duodenum.xlsx", sheetName = "RA Duodenum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT3_Updated/Duodenum/Results/PhylumDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT3_Updated/Duodenum/Results/PhylumDuodenum.xlsx", sheetName = "PhylumDuodenum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT3_Updated/Duodenum/Results/GenusDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT3_Updated/Duodenum/Results/GenusDuodenum.xlsx", sheetName = "GenusDuodenum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Duodenum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Duodenum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumDuodenum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT3_Updated/Duodenum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT3_Updated/Duodenum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusDuodenum", append = FALSE)
+
+#TRIAL 3 JEJUNUM
+
+testbiome = read.table("D:/HAUPT3_Updated/Jejunum/stability.opti_mcc14.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT3_Updated/Jejunum/stability.cons14.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT3_Updated/Jejunum/Results")
+write.table(testbiome, file = "D:/HAUPT3_Updated/Jejunum/Results/Relative Abundance Jejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT3_Updated/Jejunum/Results/Relative Abundance Jejunum.xlsx", sheetName = "RA Jejunum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT3_Updated/Jejunum/Results/PhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT3_Updated/Jejunum/Results/PhylumJejunum.xlsx", sheetName = "PhylumJejunum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT3_Updated/Jejunum/Results/GenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT3_Updated/Jejunum/Results/GenusJejunum.xlsx", sheetName = "GenusJejunum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalPhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalPhylumJejunum.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalGenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalGenusJejunum.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT3_Updated/Jejunum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+
+#TRIAL 3 ILEUM
+
+testbiome = read.table("D:/HAUPT3_Updated/Ileum/stability.opti_mcc15.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT3_Updated/Ileum/stability.cons15.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT3_Updated/Ileum/Results")
+write.table(testbiome, file = "D:/HAUPT3_Updated/Ileum/Results/Relative Abundance Ileum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT3_Updated/Ileum/Results/Relative Abundance Ileum.xlsx", sheetName = "RA Ileum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT3_Updated/Ileum/Results/PhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT3_Updated/Ileum/Results/PhylumIleum.xlsx", sheetName = "PhylumIleum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT3_Updated/Ileum/Results/GenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT3_Updated/Ileum/Results/GenusIleum.xlsx", sheetName = "GenusIleum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT3_Updated/Ileum/Results/TotalPhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT3_Updated/Ileum/Results/TotalPhylumIleum.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT3_Updated/Ileum/Results/TotalGenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT3_Updated/Ileum/Results/TotalGenusIleum.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Ileum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Ileum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT3_Updated/Ileum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT3_Updated/Ileum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+
+#TRIAL 3 CAECUM
+
+testbiome = read.table("D:/HAUPT3_Updated/Caecum/stability.opti_mcc16.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT3_Updated/Caecum/stability.cons16.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT3_Updated/Caecum/Results")
+write.table(testbiome, file = "D:/HAUPT3_Updated/Caecum/Results/Relative Abundance Caecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT3_Updated/Caecum/Results/Relative Abundance Caecum.xlsx", sheetName = "RA Caecum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT3_Updated/Caecum/Results/PhylumCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT3_Updated/Caecum/Results/PhylumCaecum.xlsx", sheetName = "PhylumCaecum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT3_Updated/Caecum/Results/GenusCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT3_Updated/Caecum/Results/GenusCaecum.xlsx", sheetName = "GenusCaecum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT3_Updated/Caecum/Results/TotalPhylumCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT3_Updated/Caecum/Results/TotalPhylumCaecum.xlsx", sheetName = "TotalPhylumCaecum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT3_Updated/Caecum/Results/TotalGenusCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT3_Updated/Caecum/Results/TotalGenusCaecum.xlsx", sheetName = "TotalGenusCaecum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Caecum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Caecum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumCaecum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT3_Updated/Caecum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT3_Updated/Caecum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusCaecum", append = FALSE)
+
+#TRIAL 3 COLON
+
+testbiome = read.table("D:/HAUPT3_Updated/Colon/stability.opti_mcc17.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT3_Updated/Colon/stability.cons17.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT3_Updated/Colon/Results")
+write.table(testbiome, file = "D:/HAUPT3_Updated/Colon/Results/Relative Abundance Colon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT3_Updated/Colon/Results/Relative Abundance Colon.xlsx", sheetName = "RA Colon", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT3_Updated/Colon/Results/PhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT3_Updated/Colon/Results/PhylumColon.xlsx", sheetName = "PhylumColon", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT3_Updated/Colon/Results/GenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT3_Updated/Colon/Results/GenusColon.xlsx", sheetName = "GenusColon", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT3_Updated/Colon/Results/TotalPhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT3_Updated/Colon/Results/TotalPhylumColon.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT3_Updated/Colon/Results/TotalGenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT3_Updated/Colon/Results/TotalGenusColon.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Colon/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Colon/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT3_Updated/Colon/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT3_Updated/Colon/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+
+#TRIAL 3 RECTUM
+
+testbiome = read.table("D:/HAUPT3_Updated/Rectum/stability.opti_mcc18.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT3_Updated/Rectum/stability.cons18.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT3_Updated/Rectum/Results")
+write.table(testbiome, file = "D:/HAUPT3_Updated/Rectum/Results/Relative Abundance Rectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT3_Updated/Rectum/Results/Relative Abundance Rectum.xlsx", sheetName = "RA Rectum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT3_Updated/Rectum/Results/PhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT3_Updated/Rectum/Results/PhylumRectum.xlsx", sheetName = "PhylumRectum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT3_Updated/Rectum/Results/GenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT3_Updated/Rectum/Results/GenusRectum.xlsx", sheetName = "GenusRectum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Rectum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT3_Updated/Rectum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumRectum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT3_Updated/Rectum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT3_Updated/Rectum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusRectum", append = FALSE)
+
+#TRIAL 4 DUODENUM
+
+testbiome = read.table("D:/HAUPT4_Updated/Duodenum/stability.opti_mcc19.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(9, 10),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT4_Updated/Duodenum/stability.cons19.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 8)
+testbiome <- testbiome[ -c(17)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(13,14,15,16)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,16)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:19], colPerc)
+testbiome[, 9:19] <- sapply(testbiome[, 9:19], colPerc)
+dir.create("D:/HAUPT4_Updated/Duodenum/Results")
+write.table(testbiome, file = "D:/HAUPT4_Updated/Duodenum/Results/Relative Abundance Duodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT4_Updated/Duodenum/Results/Relative Abundance Duodenum.xlsx", sheetName = "RA Duodenum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT4_Updated/Duodenum/Results/PhylumDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT4_Updated/Duodenum/Results/PhylumDuodenum.xlsx", sheetName = "PhylumDuodenum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT4_Updated/Duodenum/Results/GenusDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT4_Updated/Duodenum/Results/GenusDuodenum.xlsx", sheetName = "GenusDuodenum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalPhylumDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalPhylumDuodenum.xlsx", sheetName = "TotalPhylumDuodenum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalGenusDuodenum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalGenusDuodenum.xlsx", sheetName = "TotalGenusDuodenum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumDuodenum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT4_Updated/Duodenum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusDuodenum", append = FALSE)
+
+#TRIAL 4 JEJUNUM
+
+testbiome = read.table("D:/HAUPT4_Updated/Jejunum/stability.opti_mcc20.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT4_Updated/Jejunum/stability.cons20.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 10)
+testbiome <- testbiome[ -c(19)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17,18)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,18)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:21], colPerc)
+testbiome[, 9:21] <- sapply(testbiome[, 9:21], colPerc)
+dir.create("D:/HAUPT4_Updated/Jejunum/Results")
+write.table(testbiome, file = "D:/HAUPT4_Updated/Jejunum/Results/Relative Abundance Jejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT4_Updated/Jejunum/Results/Relative Abundance Jejunum.xlsx", sheetName = "RA Jejunum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT4_Updated/Jejunum/Results/PhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT4_Updated/Jejunum/Results/PhylumJejunum.xlsx", sheetName = "PhylumJejunum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT4_Updated/Jejunum/Results/GenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT4_Updated/Jejunum/Results/GenusJejunum.xlsx", sheetName = "GenusJejunum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalPhylumJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalPhylumJejunum.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalGenusJejunum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalGenusJejunum.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumJejunum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT4_Updated/Jejunum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusJejunum", append = FALSE)
+
+#TRIAL 4 ILEUM
+
+testbiome = read.table("D:/HAUPT4_Updated/Ileum/stability.opti_mcc21.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT4_Updated/Ileum/stability.cons21.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 10)
+testbiome <- testbiome[ -c(19)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17,18)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,18)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:21], colPerc)
+testbiome[, 9:21] <- sapply(testbiome[, 9:21], colPerc)
+dir.create("D:/HAUPT4_Updated/Ileum/Results")
+write.table(testbiome, file = "D:/HAUPT4_Updated/Ileum/Results/Relative Abundance Ileum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT4_Updated/Ileum/Results/Relative Abundance Ileum.xlsx", sheetName = "RA Ileum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT4_Updated/Ileum/Results/PhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT4_Updated/Ileum/Results/PhylumIleum.xlsx", sheetName = "PhylumIleum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT4_Updated/Ileum/Results/GenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT4_Updated/Ileum/Results/GenusIleum.xlsx", sheetName = "GenusIleum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT4_Updated/Ileum/Results/TotalPhylumIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT4_Updated/Ileum/Results/TotalPhylumIleum.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT4_Updated/Ileum/Results/TotalGenusIleum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT4_Updated/Ileum/Results/TotalGenusIleum.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Ileum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Ileum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumIleum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT4_Updated/Ileum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT4_Updated/Ileum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusIleum", append = FALSE)
+
+#TRIAL 4 CAECUM
+
+testbiome = read.table("D:/HAUPT4_Updated/Caecum/stability.opti_mcc22.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT4_Updated/Caecum/stability.cons22.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 10)
+testbiome <- testbiome[ -c(19)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17,18)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,18)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:21], colPerc)
+testbiome[, 9:21] <- sapply(testbiome[, 9:21], colPerc)
+dir.create("D:/HAUPT4_Updated/Caecum/Results")
+write.table(testbiome, file = "D:/HAUPT4_Updated/Caecum/Results/Relative Abundance Caecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT4_Updated/Caecum/Results/Relative Abundance Caecum.xlsx", sheetName = "RA Caecum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT4_Updated/Caecum/Results/PhylumCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT4_Updated/Caecum/Results/PhylumCaecum.xlsx", sheetName = "PhylumCaecum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT4_Updated/Caecum/Results/GenusCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT4_Updated/Caecum/Results/GenusCaecum.xlsx", sheetName = "GenusCaecum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT4_Updated/Caecum/Results/TotalPhylumCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT4_Updated/Caecum/Results/TotalPhylumCaecum.xlsx", sheetName = "TotalPhylumCaecum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT4_Updated/Caecum/Results/TotalGenusCaecum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT4_Updated/Caecum/Results/TotalGenusCaecum.xlsx", sheetName = "TotalGenusCaecum", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Caecum/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Caecum/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumCaecum", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT4_Updated/Caecum/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT4_Updated/Caecum/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusCaecum", append = FALSE)
+
+#TRIAL 4 COLON
+
+testbiome = read.table("D:/HAUPT4_Updated/Colon/stability.opti_mcc23.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT4_Updated/Colon/stability.cons23.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 10)
+testbiome <- testbiome[ -c(19)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17,18)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,18)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:21], colPerc)
+testbiome[, 9:21] <- sapply(testbiome[, 9:21], colPerc)
+dir.create("D:/HAUPT4_Updated/Colon/Results")
+write.table(testbiome, file = "D:/HAUPT4_Updated/Colon/Results/Relative Abundance Colon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT4_Updated/Colon/Results/Relative Abundance Colon.xlsx", sheetName = "RA Colon", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT4_Updated/Colon/Results/PhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT4_Updated/Colon/Results/PhylumColon.xlsx", sheetName = "PhylumColon", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT4_Updated/Colon/Results/GenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT4_Updated/Colon/Results/GenusColon.xlsx", sheetName = "GenusColon", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT4_Updated/Colon/Results/TotalPhylumColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT4_Updated/Colon/Results/TotalPhylumColon.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT4_Updated/Colon/Results/TotalGenusColon.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT4_Updated/Colon/Results/TotalGenusColon.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+TotalPhylumGraph <- select(testbiomePhylum, Phylum, CONTROL, GOS)
+OtherPhylum <- TotalPhylumGraph[-c(1:10), ]
+OtherPhylum <- OtherPhylum %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherPhylum <- OtherPhylum %>% slice_tail(n = 1)
+TotalPhylumGraph <- TotalPhylumGraph %>% slice(1:10)
+TotalPhylumGraph <- rbind(TotalPhylumGraph,OtherPhylum[1,])
+write.table(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Colon/Results/TotalPhylumGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylumGraph, file = "D:/HAUPT4_Updated/Colon/Results/TotalPhylumGraph.xlsx", sheetName = "TotalPhylumColon", append = FALSE)
+TotalGenusGraph <- select(testbiomeGenus, Genus, CONTROL, GOS)
+OtherGenus <- TotalGenusGraph[-c(1:10), ]
+OtherGenus <- OtherGenus %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Others")))
+OtherGenus <- OtherGenus %>% slice_tail(n = 1)
+TotalGenusGraph <- TotalGenusGraph %>% slice(1:10)
+TotalGenusGraph <- rbind(TotalGenusGraph,OtherGenus[1,])
+write.table(TotalGenusGraph, file = "D:/HAUPT4_Updated/Colon/Results/TotalGenusGraph.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenusGraph, file = "D:/HAUPT4_Updated/Colon/Results/TotalGenusGraph.xlsx", sheetName = "TotalGenusColon", append = FALSE)
+
+#TRIAL 4 RECTUM
+
+testbiome = read.table("D:/HAUPT4_Updated/Rectum/stability.opti_mcc24.shared", header=TRUE, sep="\t")
+row.names(testbiome) = testbiome$Group
+testbiome = testbiome[,-which(names(testbiome) %in% c("label", "numOtus", "Group"))]
+testbiome = testbiome[-c(11, 12),]
+testbiome = t(testbiome)
+testax = read.table("D:/HAUPT4_Updated/Rectum/stability.cons24.taxonomy", header=TRUE, sep="\t")
+testax <- testax %>% mutate(Taxonomy = str_replace_all(Taxonomy, "\\s*\\([^\\)]+\\)", ""))
+testax = separate(testax, Taxonomy, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"), sep=";")
+testbiome <-cbind(testax, testbiome)
+testbiome$count <- rowSums(testbiome =="0")
+testbiome = filter(testbiome, count < 10)
+testbiome <- testbiome[ -c(19)]
+testbiome$CONTROL <- rowSums(testbiome[ , c(9,10,11,12,13)],na.rm=TRUE)
+testbiome$GOS <- rowSums(testbiome[ , c(14,15,16,17,18)],na.rm=TRUE)
+testbiome$TOTAL <- rowSums(testbiome[ , c(9,10,11,12,13,14,15,18)],na.rm=TRUE)
+colPerc <- function(x){x / sum(x) * 100}
+sapply(testbiome[, 9:21], colPerc)
+testbiome[, 9:21] <- sapply(testbiome[, 9:21], colPerc)
+dir.create("D:/HAUPT4_Updated/Rectum/Results")
+write.table(testbiome, file = "D:/HAUPT4_Updated/Rectum/Results/Relative Abundance Rectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiome, file = "D:/HAUPT4_Updated/Rectum/Results/Relative Abundance Rectum.xlsx", sheetName = "RA Rectum", append = FALSE)
+testbiomePhylum <- testbiome %>%
+     group_by(Phylum) %>%
+     summarise_if(is.numeric, sum)
+testbiomePhylum <- testbiomePhylum[ -c(2)]
+testbiomePhylum <- testbiomePhylum %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomePhylum, file = "D:/HAUPT4_Updated/Rectum/Results/PhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomePhylum, file = "D:/HAUPT4_Updated/Rectum/Results/PhylumRectum.xlsx", sheetName = "PhylumRectum", append = FALSE)
+testbiomeGenus <- testbiome %>%
+     group_by(Genus) %>%
+     summarise_if(is.numeric, sum)
+testbiomeGenus <- testbiomeGenus[ -c(2)]
+testbiomeGenus <- testbiomeGenus %>%
+     mutate(rank_order = min_rank(-TOTAL)) %>%
+     arrange(rank_order)
+write.table(testbiomeGenus, file = "D:/HAUPT4_Updated/Rectum/Results/GenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(testbiomeGenus, file = "D:/HAUPT4_Updated/Rectum/Results/GenusRectum.xlsx", sheetName = "GenusRectum", append = FALSE)
+TotalPhylum <- select(testbiomePhylum, Phylum, CONTROL, GOS,TOTAL)
+write.table(TotalPhylum, file = "D:/HAUPT4_Updated/Rectum/Results/TotalPhylumRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalPhylum, file = "D:/HAUPT4_Updated/Rectum/Results/TotalPhylumRectum.xlsx", sheetName = "TotalPhylumRectum", append = FALSE)
+TotalGenus <- select(testbiomeGenus, Genus, CONTROL, GOS,TOTAL)
+write.table(TotalGenus, file = "D:/HAUPT4_Updated/Rectum/Results/TotalGenusRectum.txt", sep = "\t", row.names = TRUE, col.names = TRUE)
+write.xlsx(TotalGenus, file = "D:/HAUPT4_Updated/Rectum/Results/TotalGenusRectum.xlsx", sheetName = "TotalGenusRectum", append = FALSE)
